@@ -1,18 +1,18 @@
- <root main_tree_to_execute = "MainTree" >
+<root main_tree_to_execute = "MainTree" >
 
      <BehaviorTree ID="MainTree">
         <ReactiveSequence name="root_sequence">
             <Fallback/>
                 <TryNode num_attempts="3"/>
                         <Fallback/>
-                            <DetectPerson/>
+                            <DetectBall/>
                             <Turn turn_direction="{turn}"/>
                         </Fallback>
                 </TryNode >
                 <MakeSound/>
             </Fallback>
             <ReactiveSequence name="sub_sequence">
-                <DetectPerson_dist/>
+                <DetectBall_dist/>
                 <Foward foward_direction="{foward}"/>
             </ReactivedSequence>
         </ReactivedSequence>

@@ -14,7 +14,7 @@ MakeSound::MakeSound(const std::string& name)
 }
  
 BT::NodeStatus
-ApproachObject::tick()
+MakeSound::tick()
 {
     kobuki_msgs::Sound sound;
 
@@ -22,6 +22,7 @@ ApproachObject::tick()
     {
         ROS_INFO("Help");
     }
+    
     sound = 2;
     pub_sound_.publish(sound);
 

@@ -15,7 +15,7 @@ Foward::Foward(const std::string& name)
 }
  
 BT::NodeStatus
-ApproachObject::tick()
+Foward::tick()
 {
     geometry_msgs::Twist cmd;
 
@@ -24,7 +24,7 @@ ApproachObject::tick()
         ROS_INFO("Foward");
     }
 
-    std::string foward = getInput<std::string>("foward").value();
+    std::string foward = getInput<std::string>("foward_direction").value();
 
     if (foward == "back") {
         cmd.linear.x = 0.0;

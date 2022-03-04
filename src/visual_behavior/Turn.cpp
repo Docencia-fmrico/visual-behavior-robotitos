@@ -15,7 +15,7 @@ Turn::Turn(const std::string& name)
   
  
 BT::NodeStatus
-ApproachObject::tick()
+Turn::tick()
 {
     geometry_msgs::Twist cmd;
 
@@ -24,7 +24,7 @@ ApproachObject::tick()
         ROS_INFO("Turning");
     }
 
-    std::string turn = getInput<std::string>("turn").value();
+    std::string turn = getInput<std::string>("turn_direction").value();
 
     if (turn == "right") {
         cmd.linear.x = 0.0;
