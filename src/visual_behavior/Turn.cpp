@@ -7,10 +7,12 @@
 namespace visual_behavior
 {
 
-Turn::Turn():
+Turn::Turn(const std::string& name)
+: BT::ActionNodeBase(name, {})
 {
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
+    pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
+  
  
 BT::NodeStatus
 ApproachObject::tick()
