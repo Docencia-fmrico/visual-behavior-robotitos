@@ -1,0 +1,28 @@
+ <root main_tree_to_execute = "MainTree" >
+     <BehaviorTree ID="MainTree">
+        <Sequence name="root_sequence">
+            <Fallback/>
+                <TryNode num_attempts="3"/>
+                    <DetectPerson name="Hay una persona?"/>
+                </TryNode >
+                <MakeSound/>
+            </Fallback>
+            <SubTree ID="GotoPerson"/>
+        </Sequence>
+     </BehaviorTree>
+
+     <BehaviorTree ID="GotoPerson">
+        <ReactivedSequence/>
+            <Fallback/>
+                <Inverted/>
+                    <DetectObject  name="Hay un obstaculo?"/>
+                </Inverter>
+                <Sequence  name="Girar para no chocar"/>
+                    <Foward/> 
+                    <Turn />
+                </Sequence>
+            </Fallback>
+            <Foward/>
+        </ReactivedSequence>
+     </BehaviorTree>
+ </root>
