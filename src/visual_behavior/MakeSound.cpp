@@ -22,7 +22,7 @@ ApproachObject::tick()
     {
         ROS_INFO("Help");
     }
-
+    sound = 2;
     pub_sound_.publish(sound);
 
     return BT::NodeStatus::SUCCESS;
