@@ -13,14 +13,17 @@ int main(int argc, char **argv)
 
   BT::BehaviorTreeFactory factory;
 
-  factory.registerNodeType<behavior_trees::ADetectObject>("DetectObject");
+  factory.registerNodeType<behavior_trees::DetectPerson("DetectPerson");
+  factory.registerNodeType<behavior_trees::Turn>("Turn");
+  factory.registerNodeType<behavior_trees::Foward>("Foward");
+  factory.registerNodeType<behavior_trees::MakeSound>("MakeSound");
 
   auto blackboard = BT::Blackboard::create();
 
-  blackboard->set("object", "cup");
+  blackboard->set("turn", "foward");
 
   std::string pkgpath = ros::package::getPath("visual_behavior");
-  std::string xml_file = pkgpath + "/behavior_trees_xml/tree_1.xml";
+  std::string xml_file = pkgpath + "/visual_person_xml/visual_person.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
