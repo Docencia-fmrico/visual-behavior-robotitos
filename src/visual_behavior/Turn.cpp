@@ -1,5 +1,6 @@
 #include "visual_behavior/Turn.h"
 
+#include "behaviortree_cpp_v3/behavior_tree.h"
 #include "geometry_msgs/Twist.h"
 
 #include "ros/ros.h"
@@ -7,12 +8,17 @@
 namespace visual_behavior
 {
 
-Turn::Turn(const std::string& name)
+Turn::Turn(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, {})
 {
     pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
-  
+
+void
+Turn::halt()
+{
+  ROS_INFO("Turn halt");
+}
  
 BT::NodeStatus
 Turn::tick()
@@ -36,12 +42,7 @@ Turn::tick()
 
     pub_vel_.publish(cmd);
 
-    if ((ros::Time::now()-turn_ts_).toSec() < TURNING_TIME )
-    {
-        return BT::NodeStatus::RUNNING;
-    } else {
-        return BT::NodeStatus::SUCCESS;
-    }
+    return BT::NodeStatus::RUNNING;
 }
 
 }  // namespace visual_behavior
@@ -49,5 +50,5 @@ Turn::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::Turn>("Turn");
+  factory.registerNodeType<visual_behavior::Turn>("Turn");
 }

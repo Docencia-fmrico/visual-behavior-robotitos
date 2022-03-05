@@ -1,4 +1,4 @@
-#include "visual_behavior/DetectPerson.h"
+#include "visual_behavior/DetectBall.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <darknet_ros_msgs/BoundingBoxes.h>
@@ -8,25 +8,19 @@
 namespace visual_behavior
 {
 
-DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration & config)
+DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, {})
 {
-    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> sub_darknet_(n_, "/darknet_ros/bounding_boxes", 1);
 }
 
 void
-DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes) {
-
-}
-
-void
-DetectPerson::halt()
+DetectBall::halt()
 {
-  ROS_INFO("DetectPerson halt");
+  ROS_INFO("DetectBall halt");
 }
 
 BT::NodeStatus
-DetectPerson::tick()
+DetectBall::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
@@ -43,5 +37,5 @@ DetectPerson::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::DetectPerson>("DetectPerson");
+  factory.registerNodeType<visual_behavior::DetectBall>("DetectBall");
 }

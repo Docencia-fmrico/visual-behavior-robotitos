@@ -17,9 +17,10 @@ class MakeSound : public BT::ActionNodeBase
     explicit MakeSound(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
+    void halt();
 
   private:
-
+    const u_int8_t VALUE_SOUND = 6;
     ros::NodeHandle n_;
     ros::Publisher pub_sound_;
 };

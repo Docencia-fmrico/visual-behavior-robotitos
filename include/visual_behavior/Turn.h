@@ -18,7 +18,7 @@ class Turn : public BT::ActionNodeBase
     explicit Turn(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
-
+    void halt();
 
     static BT::PortsList providedPorts()
     {

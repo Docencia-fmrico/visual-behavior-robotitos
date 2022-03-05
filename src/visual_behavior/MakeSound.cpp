@@ -1,5 +1,6 @@
 #include "visual_behavior/MakeSound.h"
 
+#include "behaviortree_cpp_v3/behavior_tree.h"
 #include "kobuki_msgs/Sound.h"
 
 #include "ros/ros.h"
@@ -7,12 +8,18 @@
 namespace visual_behavior
 {
 
-MakeSound::MakeSound(const std::string& name)
+MakeSound::MakeSound(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, {})
 {
     pub_sound_ = n_.advertise<kobuki_msgs::Sound>("mobile_base/commands/sound", 1);
 }
- 
+
+void
+MakeSound::halt()
+{
+  ROS_INFO("MakeSound halt");
+}
+
 BT::NodeStatus
 MakeSound::tick()
 {
@@ -23,8 +30,8 @@ MakeSound::tick()
         ROS_INFO("Help");
     }
     
-    sound = 2;
-    pub_sound_.publish(sound);
+    sound.value = VALUE_SOUND;
+    pub_sound_.publish(sound.value);
 
     return BT::NodeStatus::SUCCESS;
 }
@@ -34,5 +41,5 @@ MakeSound::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::MakeSound>("MakeSound");
+  factory.registerNodeType<visual_behavior::MakeSound>("MakeSound");
 }

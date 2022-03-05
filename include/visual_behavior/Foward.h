@@ -18,7 +18,7 @@ class Foward : public BT::ActionNodeBase
     explicit Foward(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
-
+    void halt();
 
     static BT::PortsList providedPorts()
     {

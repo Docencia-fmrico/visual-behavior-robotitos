@@ -24,7 +24,6 @@ int main(int argc, char **argv)
   factory.registerFromPlugin(loader.getOSName("asr_make_sound_bt_node"));
 
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("turn", "foward", "velocity");
 
   std::string pkgpath = ros::package::getPath("visual_behavior");
   std::string xml_file = pkgpath + "/visual_person_xml/visual_person.xml";

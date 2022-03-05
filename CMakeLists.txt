@@ -4,14 +4,6 @@ project(visual_behavior)
 set(CMAKE_CONFIG_PATH ${CMAKE_MODULE_PATH}  "${CMAKE_CURRENT_LIST_DIR}/cmake")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CONFIG_PATH}")
 
-find_package(ZMQ)
-if(ZMQ_FOUND)
-    message(STATUS "ZeroMQ found.")
-    add_definitions(-DZMQ_FOUND)
-else()
-  message(WARNING "ZeroMQ NOT found. Not including PublisherZMQ.")
-endif()
-
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
@@ -38,10 +30,10 @@ add_library(asr_turn_bt_node SHARED src/visual_behavior/Turn.cpp)
 add_library(asr_make_sound_bt_node SHARED src/visual_behavior/MakeSound.cpp)
 
 add_executable(visual_ball_node src/visual_ball_node.cpp)
-target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES})
+target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 
 add_executable(visual_person_node src/visual_person_node.cpp)
-target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${ZMQ_LIBRARIES})
+target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 
 set(ROSLINT_CPP_OPTS "--filter=-runtime/printf")
 
