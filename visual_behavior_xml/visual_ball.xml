@@ -5,15 +5,15 @@
             <Fallback/>
                 <TryNode num_attempts="3"/>
                         <Fallback/>
-                            <DetectBall/>
-                            <Turn turn_direction="{turn}"/>
+                            <DetectBall turn_direction="{turn}" turn_velocity="{velocity}"/>
+                            <Turn turn_direction="{turn}" turn_velocity="{velocity}"/>
                         </Fallback>
                 </TryNode >
                 <MakeSound/>
             </Fallback>
             <ReactiveSequence name="sub_sequence">
-                <DetectBall_dist/>
-                <Foward foward_direction="{foward}"/>
+                <DetectBall_dist foward_direction="{foward}" foward_velocity="{velocity}"/>
+                <Foward foward_direction="{foward}" foward_velocity="{velocity}"/>
             </ReactivedSequence>
         </ReactivedSequence>
      </BehaviorTree>
