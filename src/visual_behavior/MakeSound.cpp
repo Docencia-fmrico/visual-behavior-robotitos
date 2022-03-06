@@ -31,9 +31,9 @@ MakeSound::tick()
     }
     
     sound.value = VALUE_SOUND;
-    pub_sound_.publish(sound.value);
+    pub_sound_.publish(sound);
 
-    return BT::NodeStatus::SUCCESS;
+    return BT::NodeStatus::RUNNING;
 }
 
 }  // namespace visual_behavior

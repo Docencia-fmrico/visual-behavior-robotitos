@@ -4,6 +4,7 @@
 #include "geometry_msgs/Twist.h"
 
 #include "ros/ros.h"
+#include <string>
 
 namespace visual_behavior
 {
@@ -30,14 +31,17 @@ Turn::tick()
         ROS_INFO("Turning");
     }
 
-    std::string turn = getInput<std::string>("turn_direction").value();
+    std::string turn = getInput<std::string>("turn").value();
+    std::string turn_direction = getInput<std::string>("turn_direction").value();
 
-    if (turn == "right") {
-        cmd.linear.x = 0.0;
-        cmd.angular.z = -0.4;
-    } else {
-        cmd.linear.x = 0.0;
-        cmd.angular.z = 0.4;
+    if (turn == "true") {
+        if (turn_direction == "right") {
+            cmd.linear.x = 0.0;
+            cmd.angular.z = -0.4;
+        } else {
+            cmd.linear.x = 0.0;
+            cmd.angular.z = 0.4;
+        }
     }
 
     pub_vel_.publish(cmd);

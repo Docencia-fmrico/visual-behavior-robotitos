@@ -4,6 +4,7 @@
 #include <darknet_ros_msgs/BoundingBoxes.h>
 
 #include "ros/ros.h"
+#include <string>
 
 namespace visual_behavior
 {
@@ -26,8 +27,6 @@ DetectBall::tick()
   {
     ROS_INFO("Loking for a person");
   }
-
-  std::string object = getInput<std::string>("object").value();
 
   return BT::NodeStatus::SUCCESS;
 }

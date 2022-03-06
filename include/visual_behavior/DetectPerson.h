@@ -24,7 +24,9 @@ class DetectPerson : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("turn") };
+        // This action has a single input port called "message"
+        // Any port must have a name. The type is optional.
+        return { BT::OutputPort<std::string>("foward_direction") };
     }
 
   private:

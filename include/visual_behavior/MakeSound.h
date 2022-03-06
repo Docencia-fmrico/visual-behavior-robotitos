@@ -19,6 +19,13 @@ class MakeSound : public BT::ActionNodeBase
     BT::NodeStatus tick();
     void halt();
 
+    static BT::PortsList providedPorts()
+    {
+        // This action has a single input port called "message"
+        // Any port must have a name. The type is optional.
+        return { BT::InputPort<std::string>("foward_direction") };
+    }
+
   private:
     const u_int8_t VALUE_SOUND = 6;
     ros::NodeHandle n_;

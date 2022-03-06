@@ -22,7 +22,9 @@ class Foward : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("foward")};
+        // This action has a single input port called "message"
+        // Any port must have a name. The type is optional.
+        return { BT::InputPort<std::string>("foward_direction") };
     }
 
   private:

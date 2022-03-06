@@ -5,6 +5,8 @@
 
 #include "ros/ros.h"
 
+#include <string>
+
 namespace visual_behavior
 {
 
@@ -30,9 +32,9 @@ Foward::tick()
         ROS_INFO("Foward");
     }
 
-    std::string foward = getInput<std::string>("foward_direction").value();
+    BT::Optional<std::string> foward = getInput<std::string>("foward_direction");
 
-    if (foward == "back") {
+    if (foward.value() == "back") {
         cmd.linear.x = -0.1;
         cmd.angular.z = 0.0;
     } else {
