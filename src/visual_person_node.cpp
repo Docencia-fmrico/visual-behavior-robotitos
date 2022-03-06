@@ -10,6 +10,11 @@
 
 #include "ros/package.h"
 
+#include "visual_behavior/MakeSound.h"
+#include "visual_behavior/DetectPerson.h"
+#include "visual_behavior/Turn.h"
+#include "visual_behavior/Foward.h"
+
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "visual_person");
