@@ -6,12 +6,12 @@
             <Fallback>
                 <RetryUntilSuccesful num_attempts="3">
                     <Fallback>
-                        <Condition ID="DetectPerson" turn_direction=""/>
+                        <Condition ID="DetectPerson" turn_direction="" turn_velocity=""/>
                         <Action ID="Turn" turn_direction="" turn_velocity=""/>
                     </Fallback>
                 </RetryUntilSuccesful>
                 <ReactiveSequence>
-                    <Condition ID="DetectPerson" turn_direction=""/>
+                    <Condition ID="DetectPerson" turn_direction="" turn_velocity=""/>
                     <Action ID="MakeSound"/>
                 </ReactiveSequence>
             </Fallback>

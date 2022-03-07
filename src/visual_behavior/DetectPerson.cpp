@@ -41,9 +41,9 @@ DetectPerson::tick()
 
   if (found_person_ == true) {
     return BT::NodeStatus::SUCCESS;
-     setOutput("turn_direction", "rigth" );
-     setOutput("foward_velocity", "0.5" );
   } else {
+    setOutput("turn_direction", "rigth" );
+    setOutput("foward_velocity", "0.5" );
     return BT::NodeStatus::FAILURE;
   }
 }
