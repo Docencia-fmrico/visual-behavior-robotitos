@@ -12,12 +12,17 @@ namespace visual_behavior
 DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, {})
 {
-    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> sub_darknet_(n_, "/darknet_ros/bounding_boxes", 1);
+  found_person_ = false;
+  sub_darknet_ = n_.subscribe("/darknet_ros/bounding_boxes",1,&DetectPerson::DetectPersonCallBack,this);
 }
 
 void
 DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes) {
-
+  for (const auto & box : boxes->bounding_boxes) {
+     if (box.Class == "person") {
+        found_person_ =true;
+     }
+  }
 }
 
 void
@@ -34,21 +39,13 @@ DetectPerson::tick()
     ROS_INFO("Loking for a person");
   }
 
-  std::string Person = "false";
-  setOutput("turn", Person );
-
-  if (Person == "true") {
-    setOutput("turn_direction", "right" );
+  if (found_person_ == true) {
     return BT::NodeStatus::SUCCESS;
+     setOutput("turn_direction", "rigth" );
+     setOutput("foward_velocity", "0.5" );
   } else {
     return BT::NodeStatus::FAILURE;
   }
 }
 
 }  // namespace visual_behavior
-
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<visual_behavior::DetectPerson>("DetectPerson");
-}

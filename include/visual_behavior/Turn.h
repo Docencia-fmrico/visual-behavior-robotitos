@@ -23,7 +23,7 @@ class Turn : public BT::ActionNodeBase
     {
         // This action has a single input port called "message"
         // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("turn_direction") };
+        return { BT::InputPort<std::string>("turn_direction"), BT::InputPort<std::string>("turn_velocity") };
     }
 
   private:

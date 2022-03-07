@@ -21,9 +21,7 @@ class MakeSound : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction") };
+        return{ BT::InputPort<std::string>("turn_velocity") };
     }
 
   private:

@@ -18,10 +18,8 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
   BT::SharedLibrary loader;
 
-  factory.registerFromPlugin(loader.getOSName("asr_detect_ball_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_foward_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_turn_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("asr_make_sound_bt_node"));
+  factory.registerFromPlugin("DetectPerson");
+  factory.registerFromPlugin("MakeSound");
 
   auto blackboard = BT::Blackboard::create();
 

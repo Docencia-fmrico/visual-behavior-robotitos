@@ -31,17 +31,22 @@ Turn::tick()
         ROS_INFO("Turning");
     }
 
-    std::string turn = getInput<std::string>("turn").value();
-    std::string turn_direction = getInput<std::string>("turn_direction").value();
+    BT::Optional<std::string>  turn_velocity = getInput<std::string>("turn_velocity");
+    BT::Optional<std::string>  turn_direction = getInput<std::string>("turn_direction");
 
-    if (turn == "true") {
-        if (turn_direction == "right") {
-            cmd.linear.x = 0.0;
-            cmd.angular.z = -0.4;
-        } else {
-            cmd.linear.x = 0.0;
-            cmd.angular.z = 0.4;
-        }
+    if (!turn_direction)
+    {
+        throw BT::RuntimeError("missing required input [message]: ", turn_direction.error() );
+    } else if (!turn_velocity) {
+        throw BT::RuntimeError("missing required input [message]: ", turn_velocity.error() );
+    }
+    ROS_INFO("Turning obteniendo valores");
+    if (turn_direction.value() == "right") {
+        cmd.linear.x = 0.0;
+        cmd.angular.z = -std::stod(turn_velocity.value());
+    } else {
+        cmd.linear.x = 0.0;
+        cmd.angular.z = std::stod(turn_velocity.value());
     }
 
     pub_vel_.publish(cmd);

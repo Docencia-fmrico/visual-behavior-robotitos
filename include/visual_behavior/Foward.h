@@ -24,7 +24,7 @@ class Foward : public BT::ActionNodeBase
     {
         // This action has a single input port called "message"
         // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction") };
+        return { BT::InputPort<std::string>("foward_direction"), BT::InputPort<std::string>("foward_velocity"),};
     }
 
   private:

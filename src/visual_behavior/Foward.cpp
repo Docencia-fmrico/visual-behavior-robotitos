@@ -4,8 +4,8 @@
 #include "geometry_msgs/Twist.h"
 
 #include "ros/ros.h"
-
 #include <string>
+#include <iostream>
 
 namespace visual_behavior
 {
@@ -32,13 +32,21 @@ Foward::tick()
         ROS_INFO("Foward");
     }
 
-    BT::Optional<std::string> foward = getInput<std::string>("foward_direction");
+    BT::Optional<std::string> foward_direction = getInput<std::string>("foward_direction");
+    BT::Optional<std::string> foward_velocity = getInput<std::string>("foward_velocity");
 
-    if (foward.value() == "back") {
-        cmd.linear.x = -0.1;
+    if (!foward_direction)
+    {
+        throw BT::RuntimeError("missing required input [message]: ", foward_direction.error() );
+    } else if (!foward_velocity) {
+        throw BT::RuntimeError("missing required input [message]: ", foward_velocity.error() );
+    }
+
+    if (foward_direction.value() == "back") {
+        cmd.linear.x = -std::stod(foward_velocity.value());
         cmd.angular.z = 0.0;
     } else {
-        cmd.linear.x = 0.1;
+        cmd.linear.x = std::stod(foward_velocity.value());
         cmd.angular.z = 0.0;
     }
 

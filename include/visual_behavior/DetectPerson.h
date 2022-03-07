@@ -6,7 +6,6 @@
 #include "ros/ros.h"
 
 #include <darknet_ros_msgs/BoundingBoxes.h>
-#include <message_filters/subscriber.h>
 
 #include <string>
 
@@ -24,13 +23,11 @@ class DetectPerson : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
-        return { BT::OutputPort<std::string>("foward_direction") };
+        return{ BT::OutputPort<std::string>("turn_direction"), BT::OutputPort<std::string>("turn_velocity")};
     }
 
   private:
-
+    bool found_person_;
     ros::NodeHandle n_;
     ros::Subscriber sub_darknet_;
 };

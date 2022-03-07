@@ -2,7 +2,7 @@
 <package format="2">
   <name>visual_behavior</name>
   <version>0.1.0</version>
-  <description>The visual_behavior package</description>
+  <description>The visual behavior package</description>
 
   <maintainer email="fmrico@gmail.com">fmrico</maintainer>
   
@@ -29,6 +29,4 @@
   <exec_depend>kobuki_msgs</exec_depend>
   <exec_depend>behaviortree_cpp_v3</exec_depend>
 
-  <export>
-  </export>
 </package>
