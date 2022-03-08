@@ -1,21 +1,20 @@
-#ifndef VISUAL_BEHAVIOR_FOWARD_H
-#define VISUAL_BEHAVIOR_FOWARD_H
+#ifndef VISUAL_BEHAVIOR_DETECTBALL_H
+#define VISUAL_BEHAVIOR_DETECTBALL_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "ros/ros.h"
 
-#include "geometry_msgs/Twist.h"
 
 #include <string>
 
 namespace visual_behavior
 {
 
-class Foward : public BT::ActionNodeBase
+class DetectBall : public BT::ActionNodeBase
 {
   public:
-    explicit Foward(const std::string& name, const BT::NodeConfiguration& config);
+    explicit DetectBall(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
     void halt();
@@ -24,16 +23,15 @@ class Foward : public BT::ActionNodeBase
     {
         // This action has a single input port called "message"
         // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction"), BT::InputPort<std::string>("foward_velocity"),};
+        return { BT::InputPort<std::string>("foward_direction") };
     }
 
   private:
-    static constexpr double BACKING_TIME = 3.0;
 
     ros::NodeHandle n_;
-    ros::Publisher pub_vel_;
+    ros::Subscriber sub_darknet_;
 };
 
 }  // namespace visual_behavior
 
-#endif  // VISUAL_BEHAVIOR_FOWARD_H
+#endif  // VISUAL_BEHAVIOR_DETECTBALL_H

@@ -10,30 +10,21 @@
 
 #include "ros/package.h"
 
-#include "visual_behavior/MakeSound.h"
-#include "visual_behavior/DetectPerson.h"
-#include "visual_behavior/Foward.h"
-#include "visual_behavior/Turn.h"
-#include "visual_behavior/DetectPersonDist.h"
-
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "visual_behavior");
+  ros::init(argc, argv, "visual_ball");
   ros::NodeHandle n;
 
   BT::BehaviorTreeFactory factory;
   BT::SharedLibrary loader;
 
-  factory.registerNodeType<visual_behavior::MakeSound>("MakeSound");
-  factory.registerNodeType<visual_behavior::DetectPerson>("DetectPerson");
-  factory.registerNodeType<visual_behavior::Foward>("Foward");
-  factory.registerNodeType<visual_behavior::Turn>("Turn");
-  factory.registerNodeType<visual_behavior::DetectPersonDist>("DetectPersonDist");
+  factory.registerFromPlugin("DetectPerson");
+  factory.registerFromPlugin("MakeSound");
 
   auto blackboard = BT::Blackboard::create();
-  
+
   std::string pkgpath = ros::package::getPath("visual_behavior");
-  std::string xml_file = pkgpath + "/visual_behavior_xml/visual_person.xml";
+  std::string xml_file = pkgpath + "/visual_person_xml/visual_ball.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);
@@ -50,6 +41,5 @@ int main(int argc, char **argv)
     ros::spinOnce();
     loop_rate.sleep();
   }
-
   return 0;
 }
