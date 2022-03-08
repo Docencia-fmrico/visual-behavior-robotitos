@@ -11,7 +11,7 @@ namespace visual_behavior
 {
 
 Foward::Foward(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, {})
+: BT::ActionNodeBase(name, config)
 {
     pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }

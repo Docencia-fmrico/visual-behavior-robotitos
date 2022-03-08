@@ -10,7 +10,7 @@ namespace visual_behavior
 {
 
 Turn::Turn(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, {})
+: BT::ActionNodeBase(name, config)
 {
     pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
@@ -51,7 +51,7 @@ Turn::tick()
 
     pub_vel_.publish(cmd);
 
-    return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::SUCCESS;
 }
 
 }  // namespace visual_behavior

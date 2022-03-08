@@ -29,9 +29,9 @@ int main(int argc, char **argv)
   factory.registerNodeType<visual_behavior::Foward>("Foward");
   factory.registerNodeType<visual_behavior::Turn>("Turn");
   factory.registerNodeType<visual_behavior::DetectPersonDist>("DetectPersonDist");
-  
-  auto blackboard = BT::Blackboard::create();
 
+  auto blackboard = BT::Blackboard::create();
+  
   std::string pkgpath = ros::package::getPath("visual_behavior");
   std::string xml_file = pkgpath + "/visual_behavior_xml/visual_person.xml";
 

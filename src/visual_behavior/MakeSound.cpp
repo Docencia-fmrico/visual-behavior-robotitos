@@ -9,7 +9,7 @@ namespace visual_behavior
 {
 
 MakeSound::MakeSound(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, {})
+: BT::ActionNodeBase(name, config)
 {
     pub_sound_ = n_.advertise<kobuki_msgs::Sound>("mobile_base/commands/sound", 1);
 }

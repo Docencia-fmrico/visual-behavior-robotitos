@@ -10,7 +10,7 @@ namespace visual_behavior
 {
 
 DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, {})
+: BT::ActionNodeBase(name, config)
 {
 }
 
