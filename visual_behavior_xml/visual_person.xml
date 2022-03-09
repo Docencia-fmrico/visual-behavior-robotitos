@@ -7,13 +7,15 @@
                 <RetryUntilSuccesful num_attempts="3">
                     <Fallback>
                         <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                        <Inverted>
+                        <Inverter>
                             <Action ID="Turn" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                        </Inverted>
+                        </Inverter>
                     </Fallback>
                 </RetryUntilSuccesful>
                 <ReactiveSequence>
-                    <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
+                    <Inverter>
+                        <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
+                    </Inverter>
                     <Action ID="MakeSound"/>
                 </ReactiveSequence>
             </Fallback>

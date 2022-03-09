@@ -27,7 +27,10 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
   sensor_msgs
+  message_filters
 )
+find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED)
 
 catkin_package(
 CATKIN_DEPENDS 
@@ -42,6 +45,7 @@ CATKIN_DEPENDS
   pcl_conversions
   pcl_ros
   sensor_msgs
+  message_filters
 )
 
 include_directories(
@@ -49,6 +53,8 @@ include_directories(
   include
   ${ZMQ_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -67,9 +73,9 @@ add_library(${PROJECT_NAME}
 add_definitions(${PCL_DEFINITIONS})
 
 add_executable(visual_person_node src/visual_person_node.cpp)
-target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_INCLUDE_DIRS} ${Boost_LIBRARIES})
 add_executable(visual_ball_node src/visual_ball_node.cpp)
-target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_INCLUDE_DIRS} ${Boost_LIBRARIES})
 
 set(ROSLINT_CPP_OPTS "--filter=-runtime/printf")
 

@@ -6,6 +6,7 @@
 
 #include <darknet_ros_msgs/BoundingBoxes.h>
 #include <message_filters/subscriber.h>
+#include <message_filters/connection.h>
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
@@ -25,18 +26,18 @@ class DetectPersonDist : public BT::ActionNodeBase
 
     BT::NodeStatus tick();
     void halt();
+    void DetectPersonDistCallBack(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
 
     static BT::PortsList providedPorts()
     {
         return { BT::OutputPort<std::string>("foward_direction"), BT::OutputPort<std::string>("foward_velocity") };
     }
-
+    
   private:
     bool found_person_;
     float dist;
     
     ros::NodeHandle n_;
-    ros::Subscriber sub_darknet_;
 };
 
 }  // namespace visual_behavior
