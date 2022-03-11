@@ -4,7 +4,12 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "ros/ros.h"
-
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <std_msgs/Float32.h>
 
 #include <string>
 
@@ -18,20 +23,19 @@ class DetectBall : public BT::ActionNodeBase
 
     BT::NodeStatus tick();
     void halt();
+    void DetectBallCallBack(const sensor_msgs::Image::ConstPtr& image);
 
     static BT::PortsList providedPorts()
     {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction") };
+        return{ BT::OutputPort<std::string>("turn_direction"), BT::OutputPort<std::string>("turn_velocity")};
     }
 
   private:
-
+    bool found_ball_;
     ros::NodeHandle n_;
-    ros::Subscriber sub_darknet_;
+    ros::Subscriber sub_hsv_;
 };
 
 }  // namespace visual_behavior
 
-#endif  // VISUAL_BEHAVIOR_DETECTBALL_H
+#endif  // VISUAL_BEHAVIOR_DETECTBALL_H 
