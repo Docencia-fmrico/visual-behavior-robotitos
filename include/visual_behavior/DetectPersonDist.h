@@ -5,8 +5,8 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 
 #include <darknet_ros_msgs/BoundingBoxes.h>
+#include <sensor_msgs/image_encodings.h>
 #include <message_filters/subscriber.h>
-#include <message_filters/connection.h>
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
@@ -26,7 +26,7 @@ class DetectPersonDist : public BT::ActionNodeBase
 
     BT::NodeStatus tick();
     void halt();
-    void DetectPersonDistCallBack(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
+    void callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
 
     static BT::PortsList providedPorts()
     {
@@ -36,8 +36,12 @@ class DetectPersonDist : public BT::ActionNodeBase
   private:
     bool found_person_;
     float dist;
+    int px;
+    int py;
     
     ros::NodeHandle n_;
+    ros::Subscriber sub_darknet_;
+    ros::Subscriber sub_image_;
 };
 
 }  // namespace visual_behavior

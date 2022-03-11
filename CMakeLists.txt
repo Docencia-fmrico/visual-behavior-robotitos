@@ -1,36 +1,24 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(visual_behavior)
 
-set(CMAKE_CXX_STANDARD 17)
-
-set(CMAKE_CONFIG_PATH ${CMAKE_MODULE_PATH}  "${CMAKE_CURRENT_LIST_DIR}/cmake")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CONFIG_PATH}")
-
-find_package(ZMQ)
-if(ZMQ_FOUND)
-    message(STATUS "ZeroMQ found.")
-    add_definitions(-DZMQ_FOUND)
-else()
-  message(WARNING "ZeroMQ NOT found. Not including PublisherZMQ.")
-endif()
-
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslint
+  sensor_msgs
   std_msgs
   geometry_msgs
-  behaviortree_cpp_v3
-  roslint
-  darknet_ros_msgs
-  tf
   cv_bridge
+  tf
   image_transport
   pcl_conversions
   pcl_ros
-  sensor_msgs
+  behaviortree_cpp_v3
+  darknet_ros_msgs
   message_filters
 )
+
 find_package(OpenCV REQUIRED)
-find_package(Boost REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 catkin_package(
 CATKIN_DEPENDS 
@@ -38,23 +26,23 @@ CATKIN_DEPENDS
   std_msgs 
   kobuki_msgs 
   sensor_msgs 
+  cv_bridge
   behaviortree_cpp_v3
   tf
-  cv_bridge
   image_transport
   pcl_conversions
   pcl_ros
-  sensor_msgs
   message_filters
 )
+
+find_package(OpenCV)
+find_package(OpenCV 4 REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
   include
-  ${ZMQ_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -69,13 +57,20 @@ add_library(${PROJECT_NAME}
   src/visual_behavior/Turn.cpp
   src/visual_behavior/Foward.cpp
 )
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_definitions(${PCL_DEFINITIONS})
 
+foreach(bt_plugin ${plugin_libs})
+  target_link_libraries(${bt_plugin} ${catkin_LIBRARIES})
+  target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
+endforeach()
+
+
 add_executable(visual_person_node src/visual_person_node.cpp)
-target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_INCLUDE_DIRS} ${Boost_LIBRARIES})
+target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES})
 add_executable(visual_ball_node src/visual_ball_node.cpp)
-target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${ZMQ_LIBRARIES} ${OpenCV_INCLUDE_DIRS} ${Boost_LIBRARIES})
+target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES})
 
 set(ROSLINT_CPP_OPTS "--filter=-runtime/printf")
 

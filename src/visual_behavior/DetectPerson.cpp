@@ -18,11 +18,12 @@ DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration 
 
 void
 DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes) {
+  ROS_INFO("DetectPerson  fuera del for");
   for (const auto & box : boxes->bounding_boxes) {
      if (box.Class == "person") {
-        found_person_ =true;
+        ROS_INFO("DetectPerson dentro del for");
+        found_person_ = true;
      }
-     
   }
 }
 
@@ -44,7 +45,7 @@ DetectPerson::tick()
     return BT::NodeStatus::SUCCESS;
   } else {
     setOutput("turn_direction", "rigth" );
-    setOutput("turn_velocity", "0.1" );
+    setOutput("turn_velocity", "0.0" );
     return BT::NodeStatus::FAILURE;
   }
 }

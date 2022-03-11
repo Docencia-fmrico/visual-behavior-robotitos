@@ -21,14 +21,12 @@ class Turn : public BT::ActionNodeBase
     void halt();
     static BT::PortsList providedPorts()
     {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
         return { BT::InputPort<std::string>("turn_direction"), BT::InputPort<std::string>("turn_velocity") };
     }
 
   private:
-    static constexpr double TURNING_TIME = 3.0;
-
+    static constexpr double TURNING_TIME = 4.0;
+    ros::Time detected_ts_;
     ros::NodeHandle n_;
     ros::Publisher pub_vel_;
 };

@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <ReactiveSequence>
             <Fallback>
-                <RetryUntilSuccesful num_attempts="3">
+                <RetryUntilSuccesful num_attempts="5">
                     <Fallback>
                         <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
                         <Inverter>
@@ -12,17 +12,19 @@
                         </Inverter>
                     </Fallback>
                 </RetryUntilSuccesful>
-                <ReactiveSequence>
-                    <Inverter>
-                        <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                    </Inverter>
+                <ReactiveFallback>
+                    <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
                     <Action ID="MakeSound"/>
-                </ReactiveSequence>
+                </ReactiveFallback>
             </Fallback>
-            <ReactiveSequence>
-                <Condition ID="DetectPersonDist" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
-                <Action ID="Foward" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
-            </ReactiveSequence>
+            <Inverter>
+                <ReactiveFallback>
+                    <Inverter>
+                        <Condition ID="DetectPersonDist" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
+                    </Inverter>
+                    <Action ID="Foward" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
+                </ReactiveFallback>
+            </Inverter>
         </ReactiveSequence>
     </BehaviorTree>
     <!-- ////////// -->

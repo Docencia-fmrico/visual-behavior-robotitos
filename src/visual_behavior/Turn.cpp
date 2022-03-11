@@ -48,16 +48,12 @@ Turn::tick()
         cmd.linear.x = 0.0;
         cmd.angular.z = std::stod(turn_velocity.value());
     }
-
-    pub_vel_.publish(cmd);
+    detected_ts_ = ros::Time::now();
+    while ((ros::Time::now() - detected_ts_).toSec() < TURNING_TIME) {
+        pub_vel_.publish(cmd);
+    }
 
     return BT::NodeStatus::SUCCESS;
 }
 
 }  // namespace visual_behavior
-
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<visual_behavior::Turn>("Turn");
-}

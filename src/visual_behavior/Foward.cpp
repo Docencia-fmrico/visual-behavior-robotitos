@@ -34,6 +34,7 @@ Foward::tick()
 
     BT::Optional<std::string> foward_direction = getInput<std::string>("foward_direction");
     BT::Optional<std::string> foward_velocity = getInput<std::string>("foward_velocity");
+    detected_ts_ = ros::Time::now();
 
     if (!foward_direction)
     {
@@ -49,16 +50,11 @@ Foward::tick()
         cmd.linear.x = std::stod(foward_velocity.value());
         cmd.angular.z = 0.0;
     }
-
-    pub_vel_.publish(cmd);
+    while ((ros::Time::now() - detected_ts_).toSec() < BACKING_TIME) {
+        pub_vel_.publish(cmd);
+    }
     
-    return BT::NodeStatus::SUCCESS;
+    return BT::NodeStatus::RUNNING;
 }
 
 }  // namespace visual_behavior
-
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<visual_behavior::Foward>("Foward");
-}
