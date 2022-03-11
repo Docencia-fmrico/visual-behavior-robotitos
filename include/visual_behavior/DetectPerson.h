@@ -12,12 +12,13 @@
 namespace visual_behavior
 {
 
-class DetectPerson : public BT::ConditionNode
+class DetectPerson : public BT::ActionNodeBase
 {
   public:
     explicit DetectPerson(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
+    void halt();
     void DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes);
 
     static BT::PortsList providedPorts()
