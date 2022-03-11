@@ -30,8 +30,10 @@ MakeSound::tick()
         ROS_INFO("Help");
     }
     
-    sound.value = VALUE_SOUND;
+    sound.value = sound.ERROR;
     pub_sound_.publish(sound);
+
+    ros::Duration(5.0).sleep();
 
     return BT::NodeStatus::RUNNING;
 }
