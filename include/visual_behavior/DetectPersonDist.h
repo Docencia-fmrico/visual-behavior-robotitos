@@ -5,6 +5,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 
 #include <darknet_ros_msgs/BoundingBoxes.h>
+#include <darknet_ros_msgs/ObjectCount.h>
 #include <sensor_msgs/image_encodings.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
@@ -26,6 +27,7 @@ class DetectPersonDist : public BT::ConditionNode
 
     BT::NodeStatus tick();
     void callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
+    void DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes);
 
     static BT::PortsList providedPorts()
     {

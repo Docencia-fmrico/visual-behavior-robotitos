@@ -5,7 +5,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "ros/ros.h"
 
-#include <darknet_ros_msgs/BoundingBoxes.h>
+#include <darknet_ros_msgs/ObjectCount.h>
 
 #include <string>
 
@@ -18,7 +18,7 @@ class DetectPerson : public BT::ConditionNode
     explicit DetectPerson(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
-    void DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes);
+    void DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes);
 
     static BT::PortsList providedPorts()
     {

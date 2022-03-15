@@ -28,7 +28,7 @@ class Foward : public BT::ActionNodeBase
     }
 
   private:
-    static constexpr double BACKING_TIME = 3.0;
+    static constexpr double WALKING_TIME = 2.0;
     ros::Time detected_ts_;
     ros::NodeHandle n_;
     ros::Publisher pub_vel_;
