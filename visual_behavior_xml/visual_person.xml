@@ -5,12 +5,12 @@
         <ReactiveSequence>
             <Fallback>
                 <RetryUntilSuccesful num_attempts="5">
-                    <Fallback>
+                    <ReactiveFallback>
                         <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
                         <Inverter>
                             <Action ID="Turn" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
                         </Inverter>
-                    </Fallback>
+                    </ReactiveFallback>
                 </RetryUntilSuccesful>
                 <ReactiveFallback>
                     <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>

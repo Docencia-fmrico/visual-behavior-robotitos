@@ -12,7 +12,8 @@ namespace visual_behavior
 DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ConditionNode(name, config)
 {
-  found_person_ = false;
+  found_person_ = true;
+  sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPerson::DetectPersonCallBack,this);
   sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPerson::DetectPersonCallBack,this);
 }
 
