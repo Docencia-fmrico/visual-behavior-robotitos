@@ -9,13 +9,13 @@
 namespace visual_behavior
 {
 
-DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & config)
+DetectBallDist::DetectBallDist(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config)
 {
 }
 
 void
-DetectBall::halt()
+DetectBallDist::halt()
 {
   ROS_INFO("DetectBall halt");
 }

@@ -10,7 +10,7 @@ namespace visual_behavior
 {
 
 DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config)
+: BT::ConditionNode(name, config)
 {
   found_person_ = false;
   sub_darknet_ = n_.subscribe("/darknet_ros/bounding_boxes",1,&DetectPerson::DetectPersonCallBack,this);

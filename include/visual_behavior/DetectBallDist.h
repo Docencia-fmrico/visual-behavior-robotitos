@@ -15,16 +15,13 @@
 #include "ros/ros.h"
 
 
-
-#include <string>
-
 namespace visual_behavior
 {
 
-class DetectBall : public BT::ActionNodeBase
+class DetectBallDist : public BT::ActionNodeBase
 {
   public:
-    explicit DetectBall(const std::string& name, const BT::NodeConfiguration& config);
+    explicit DetectBallDist(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
     void halt();
@@ -44,4 +41,4 @@ class DetectBall : public BT::ActionNodeBase
 
 }  // namespace visual_behavior
 
-#endif  // VISUAL_BEHAVIOR_DETECTBALL_H
+#endif  // VISUAL_BEHAVIOR_DETECTBALLDIST_H
