@@ -1,7 +1,7 @@
 #include "visual_behavior/DetectPerson.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
-#include <darknet_ros_msgs/BoundingBoxes.h>
+#include <darknet_ros_msgs/ObjectCount.h>
 
 #include "ros/ros.h"
 #include <string>
@@ -13,17 +13,18 @@ DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration 
 : BT::ActionNodeBase(name, config)
 {
   found_person_ = false;
-  sub_darknet_ = n_.subscribe("/darknet_ros/bounding_boxes",1,&DetectPerson::DetectPersonCallBack,this);
+  sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPerson::DetectPersonCallBack,this);
 }
 
 void
-DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes) {
-  ROS_INFO("DetectPerson  fuera del for");
-  for (const auto & box : boxes->bounding_boxes) {
-     if (box.Class == "person") {
-        ROS_INFO("DetectPerson dentro del for");
-        found_person_ = true;
-     }
+DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes) {
+  ROS_INFO(" callback detectperson");
+
+  if (boxes->count >= 1) {
+    found_person_ = true;
+  } else {
+    found_person_ = false;
+
   }
 }
 
@@ -45,7 +46,7 @@ DetectPerson::tick()
     return BT::NodeStatus::SUCCESS;
   } else {
     setOutput("turn_direction", "rigth" );
-    setOutput("turn_velocity", "0.0" );
+    setOutput("turn_velocity", "0.5" );
     return BT::NodeStatus::FAILURE;
   }
 }

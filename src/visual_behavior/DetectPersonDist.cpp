@@ -8,6 +8,7 @@
 
 #include <sensor_msgs/Image.h>
 #include <darknet_ros_msgs/BoundingBoxes.h>
+#include <darknet_ros_msgs/ObjectCount.h>
 
 #include "ros/ros.h"
 #include <string>
@@ -16,22 +17,26 @@ namespace visual_behavior
 {
 
 DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config)
-{
-  message_filters::Subscriber<sensor_msgs::Image> image_depth_sub(n_, "/camera/depth/image_raw", 1);
-  message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub(n_, "/darknet_ros/bounding_boxes", 1);
+
+: BT::ConditionNode(name, config)
+{ found_person_ == false;
+  dist = 0.55;
+  message_filters::Subscriber<sensor_msgs::Image> image_depth_sub(n_, "/camera/depth/image_raw", 10);
+  message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub(n_, "/darknet_ros/bounding_boxes", 10);
+
 
   typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
   message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub);
 
   sync_bbx.registerCallback(boost::bind(&DetectPersonDist::callback_bbx, this,  _1, _2));
+  sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPersonDist::DetectPersonCallBack,this);
 }
 
 void
 DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes){
+  ROS_INFO(" callback detectperson dist");
+
   cv_bridge::CvImagePtr img_ptr_depth;
-  found_person_ = false;
-  dist = -1;
 
   try{
       img_ptr_depth = cv_bridge::toCvCopy(*image, sensor_msgs::image_encodings::TYPE_32FC1);
@@ -44,7 +49,6 @@ DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const da
   
   for (const auto & box : boxes->bounding_boxes) {
     if (box.Class == "person") {
-      found_person_ =true;
       int px = (box.xmax + box.xmin) / 2;
       int py = (box.ymax + box.ymin) / 2;
       dist = img_ptr_depth->image.at<float>(cv::Point(px, py)) * 0.001f;
@@ -53,9 +57,12 @@ DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const da
 }
 
 void
-DetectPersonDist::halt()
-{
-  ROS_INFO("DetectPersonDist halt");
+DetectPersonDist::DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes) {
+  if (boxes->count >= 1) {
+    found_person_ = true;
+  } else {
+    found_person_ = false;
+  }
 }
 
 BT::NodeStatus
@@ -65,8 +72,9 @@ DetectPersonDist::tick()
   {
     ROS_INFO("Loking for a person and return a distance");
   }
-
+  
   if (found_person_ == true) {
+    std::cerr << "dist:" << dist << std::endl;
     if (dist >= 0.6 && dist <= 1.0) {
       setOutput("foward_direction", "go" );
       setOutput("foward_velocity", "0.1" );
@@ -80,7 +88,6 @@ DetectPersonDist::tick()
       setOutput("foward_direction", "go" );
       setOutput("foward_velocity", "0.0" );
     }
-    
     return BT::NodeStatus::SUCCESS;
   } else {
     setOutput("foward_direction", "go" );

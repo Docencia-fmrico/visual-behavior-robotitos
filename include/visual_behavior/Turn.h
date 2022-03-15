@@ -25,7 +25,7 @@ class Turn : public BT::ActionNodeBase
     }
 
   private:
-    static constexpr double TURNING_TIME = 4.0;
+    static constexpr double TURNING_TIME = 2.0;
     ros::Time detected_ts_;
     ros::NodeHandle n_;
     ros::Publisher pub_vel_;
