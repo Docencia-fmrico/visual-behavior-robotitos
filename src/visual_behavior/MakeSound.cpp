@@ -33,8 +33,6 @@ MakeSound::tick()
     sound.value = sound.ERROR;
     pub_sound_.publish(sound);
 
-    ros::Duration(1.0).sleep();
-
     return BT::NodeStatus::RUNNING;
 }
 

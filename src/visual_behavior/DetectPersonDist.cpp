@@ -20,7 +20,7 @@ DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfig
 
 : BT::ConditionNode(name, config)
 { found_person_ == false;
-  dist = 0.55;
+  dist = 0.6;
   message_filters::Subscriber<sensor_msgs::Image> image_depth_sub(n_, "/camera/depth/image_raw", 10);
   message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub(n_, "/darknet_ros/bounding_boxes", 10);
 
