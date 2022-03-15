@@ -51,9 +51,10 @@ Foward::tick()
     }
     while ((ros::Time::now() - detected_ts_).toSec() < WALKING_TIME) {
         pub_vel_.publish(cmd);
+        return BT::NodeStatus::RUNNING;
     }
     
-    return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::SUCCESS;
 }
 
 }  // namespace visual_behavior

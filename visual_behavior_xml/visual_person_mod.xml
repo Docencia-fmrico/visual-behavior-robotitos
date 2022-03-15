@@ -3,28 +3,19 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Fallback>
-                <RetryUntilSuccesful num_attempts="10">
-                    <ReactiveFallback>
-                        <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                        <Inverter>
-                            <Action ID="Turn" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                        </Inverter>
-                    </ReactiveFallback>
-                </RetryUntilSuccesful>
-                <ReactiveFallback>
-                    <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                    <Action ID="MakeSound"/>
-                </ReactiveFallback>
-            </Fallback>
-            <Inverter>
-                <ReactiveFallback>
-                    <Inverter>
-                        <Condition ID="DetectPersonDist" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
-                    </Inverter>
-                    <Action ID="Foward" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
-                </ReactiveFallback>
-            </Inverter>
+            <ReactiveFallback>
+                <Condition ID="DetectPerson" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}" counter="{counter}" />
+                <Sequence>
+                    <Action ID="Turn" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}" />
+                    <Action ID="MakeSound" counter="{counter}" />
+                </Sequence>
+            </ReactiveFallback>
+            <ReactiveFallback>
+                <Inverter>
+                    <Condition ID="DetectPersonDist" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
+                </Inverter>
+                <Action ID="Foward" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
+            </ReactiveFallback>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->

@@ -48,6 +48,7 @@ Turn::tick()
         cmd.linear.x = 0.0;
         cmd.angular.z = std::stod(turn_velocity.value());
     }
+
     detected_ts_ = ros::Time::now();
     while ((ros::Time::now() - detected_ts_).toSec() < TURNING_TIME) {
         pub_vel_.publish(cmd);

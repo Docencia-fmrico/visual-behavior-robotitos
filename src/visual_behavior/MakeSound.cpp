@@ -4,6 +4,7 @@
 #include "kobuki_msgs/Sound.h"
 
 #include "ros/ros.h"
+#include <string>
 
 namespace visual_behavior
 {
@@ -30,10 +31,20 @@ MakeSound::tick()
         ROS_INFO("Help");
     }
     
-    sound.value = sound.ERROR;
-    pub_sound_.publish(sound);
+    BT::Optional<std::string>  counter = getInput<std::string>("counter");
 
-    return BT::NodeStatus::RUNNING;
+    if (!counter)
+    {
+        throw BT::RuntimeError("missing required input [message]: ", counter.error() );
+    } 
+
+    sound.value = sound.ERROR;
+    if (std::stoi(counter.value()) <= 5) {
+        return BT::NodeStatus::SUCCESS;
+    } else {
+        pub_sound_.publish(sound);
+        return BT::NodeStatus::RUNNING;
+    }
 }
 
 }  // namespace visual_behavior

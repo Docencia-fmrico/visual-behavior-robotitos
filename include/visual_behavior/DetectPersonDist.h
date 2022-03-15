@@ -27,22 +27,27 @@ class DetectPersonDist : public BT::ConditionNode
 
     BT::NodeStatus tick();
     void callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
-    void DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes);
-
+    void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);
+   
     static BT::PortsList providedPorts()
     {
         return { BT::OutputPort<std::string>("foward_direction"), BT::OutputPort<std::string>("foward_velocity") };
     }
     
   private:
+    ros::NodeHandle n_;
+
+    message_filters::Subscriber<sensor_msgs::Image> image_depth_sub;
+    message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub;
+
+    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
+    message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx;
+
     bool found_person_;
+    ros::Subscriber sub_counter_;
     float dist;
     int px;
     int py;
-    
-    ros::NodeHandle n_;
-    ros::Subscriber sub_darknet_;
-    ros::Subscriber sub_image_;
 };
 
 }  // namespace visual_behavior

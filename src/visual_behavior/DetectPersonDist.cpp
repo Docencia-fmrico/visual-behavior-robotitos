@@ -17,17 +17,14 @@ namespace visual_behavior
 {
 
 DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ConditionNode(name, config)
+: BT::ConditionNode(name, config), sync_bbx(MySyncPolicy_bbx(10),image_depth_sub, bbx_sub)
 { found_person_ == false;
-  dist = 0.6;
-  message_filters::Subscriber<sensor_msgs::Image> image_depth_sub(n_, "/camera/depth/image_raw", 10);
-  message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub(n_, "/darknet_ros/bounding_boxes", 10);
 
-  typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
-  message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub);
+  image_depth_sub.subscribe(n_, "/camera/depth/image_raw", 1);
+  bbx_sub.subscribe(n_, "/darknet_ros/bounding_boxes", 1);
 
+  sub_counter_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPersonDist::CounterCallBack,this);
   sync_bbx.registerCallback(boost::bind(&DetectPersonDist::callback_bbx, this,  _1, _2));
-  sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPersonDist::DetectPersonCallBack,this);
 }
 
 void
@@ -48,14 +45,17 @@ DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const da
     if (box.Class == "person") {
       int px = (box.xmax + box.xmin) / 2;
       int py = (box.ymax + box.ymin) / 2;
+      found_person_ == false;
       dist = img_ptr_depth->image.at<float>(cv::Point(px, py)) * 0.001f;
     }
   }
 }
 
 void
-DetectPersonDist::DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes) {
-  if (boxes->count >= 1) {
+DetectPersonDist::CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter) {
+  ROS_INFO(" callback counter");
+
+  if (counter->count >= 1) {
     found_person_ = true;
   } else {
     found_person_ = false;
