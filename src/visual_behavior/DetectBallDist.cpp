@@ -12,6 +12,7 @@ namespace visual_behavior
 DetectBallDist::DetectBallDist(const std::string& name, const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config)
 {
+  sub_tf_ ;
 }
 
 void
@@ -21,7 +22,7 @@ DetectBallDist::halt()
 }
 
 BT::NodeStatus
-DetectBall::tick()
+DetectBallDist::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
@@ -36,5 +37,5 @@ DetectBall::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::DetectBall>("DetectBall");
+  factory.registerNodeType<visual_behavior::DetectBallDist>("DetectBall");
 }

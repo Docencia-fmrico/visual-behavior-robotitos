@@ -36,8 +36,7 @@ Foward::tick()
     BT::Optional<std::string> foward_velocity = getInput<std::string>("foward_velocity");
     detected_ts_ = ros::Time::now();
 
-    if (!foward_direction)
-    {
+    if (!foward_direction) {
         throw BT::RuntimeError("missing required input [message]: ", foward_direction.error() );
     } else if (!foward_velocity) {
         throw BT::RuntimeError("missing required input [message]: ", foward_velocity.error() );
@@ -50,7 +49,7 @@ Foward::tick()
         cmd.linear.x = std::stod(foward_velocity.value());
         cmd.angular.z = 0.0;
     }
-    while ((ros::Time::now() - detected_ts_).toSec() < BACKING_TIME) {
+    while ((ros::Time::now() - detected_ts_).toSec() < WALKING_TIME) {
         pub_vel_.publish(cmd);
     }
     

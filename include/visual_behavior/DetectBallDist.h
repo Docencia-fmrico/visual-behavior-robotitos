@@ -9,6 +9,7 @@
 #include "tf2/convert.h"
 #include "tf2_ros/transform_broadcaster.h"
 #include "tf2/LinearMath/Quaternion.h"
+#include "geometry_tf/transforms.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -36,7 +37,24 @@ class DetectBallDist : public BT::ActionNodeBase
   private:
 
     ros::NodeHandle n_;
-    ros::Subscriber sub_darknet_;
+    ros::Subscriber sub_tf_;
+    tf2_ros::Buffer buffer;
+    tf2_ros::TransformListener listener(buffer);
+
+    geometry_msgs::TransformStamped bf2ball_msg;
+    geometry_msgs::TransformStamped odom2bf_msg;
+    geometry_msgs::TransformStamped odom2ball_msg;
+    geometry_msgs::TransformStamped ball2odom_msg;
+
+    tf2::Stamped<tf2::Transform> bf2ball;
+    tf2::Stamped<tf2::Transform> odom2bf;
+    tf2::Stamped<tf2::Transform> odom2ball;
+    tf2::Stamped<tf2::Transform> ball2odom;
+
+    tf2::Transform bf2ball;
+    tf2::Transform ball2bf;
+
+    std::string error;
 };
 
 }  // namespace visual_behavior
