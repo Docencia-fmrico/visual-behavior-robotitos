@@ -9,7 +9,7 @@
 #include "tf2/convert.h"
 #include "tf2_ros/transform_broadcaster.h"
 #include "tf2/LinearMath/Quaternion.h"
-#include "geometry_tf/transforms.h"
+#include "transforms.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -37,7 +37,6 @@ class DetectBallDist : public BT::ActionNodeBase
   private:
 
     ros::NodeHandle n_;
-    ros::Subscriber sub_tf_;
     tf2_ros::Buffer buffer;
     tf2_ros::TransformListener listener(buffer);
 
