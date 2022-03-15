@@ -12,7 +12,7 @@
 namespace visual_behavior
 {
 
-class DetectPerson : public BT::ConditionNode
+class DetectPerson : public BT::ActionNodeBase
 {
   public:
     explicit DetectPerson(const std::string& name, const BT::NodeConfiguration& config);

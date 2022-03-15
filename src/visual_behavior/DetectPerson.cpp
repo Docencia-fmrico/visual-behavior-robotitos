@@ -10,7 +10,7 @@ namespace visual_behavior
 {
 
 DetectPerson::DetectPerson(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ConditionNode(name, config)
+: BT::ActionNodeBase(name, config)
 {
   found_person_ = false;
   sub_darknet_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPerson::DetectPersonCallBack,this);
@@ -24,7 +24,14 @@ DetectPerson::DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr
     found_person_ = true;
   } else {
     found_person_ = false;
+
   }
+}
+
+void
+DetectPerson::halt()
+{
+  ROS_INFO("DetectPerson halt");
 }
 
 BT::NodeStatus
@@ -35,7 +42,7 @@ DetectPerson::tick()
     ROS_INFO("Loking for a person");
   }
 
-  if (found_person_) {
+  if (found_person_ == true) {
     return BT::NodeStatus::SUCCESS;
   } else {
     setOutput("turn_direction", "rigth" );

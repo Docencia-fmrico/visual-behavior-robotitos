@@ -17,11 +17,13 @@ namespace visual_behavior
 {
 
 DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfiguration & config)
+
 : BT::ConditionNode(name, config)
 { found_person_ == false;
   dist = 0.55;
   message_filters::Subscriber<sensor_msgs::Image> image_depth_sub(n_, "/camera/depth/image_raw", 10);
   message_filters::Subscriber<darknet_ros_msgs::BoundingBoxes> bbx_sub(n_, "/darknet_ros/bounding_boxes", 10);
+
 
   typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, darknet_ros_msgs::BoundingBoxes> MySyncPolicy_bbx;
   message_filters::Synchronizer<MySyncPolicy_bbx> sync_bbx(MySyncPolicy_bbx(10), image_depth_sub, bbx_sub);
@@ -33,6 +35,7 @@ DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfig
 void
 DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes){
   ROS_INFO(" callback detectperson dist");
+
   cv_bridge::CvImagePtr img_ptr_depth;
 
   try{
