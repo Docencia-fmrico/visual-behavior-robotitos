@@ -10,15 +10,8 @@ namespace visual_behavior
 {
 
 DetectBallDist::DetectBallDist(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ActionNodeBase(name, config)
+: BT::ConditionNode(name, config)
 {
-  sub_tf_ ;
-}
-
-void
-DetectBallDist::halt()
-{
-  ROS_INFO("DetectBall halt");
 }
 
 BT::NodeStatus

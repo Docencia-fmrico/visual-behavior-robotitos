@@ -4,18 +4,12 @@
   <version>0.1.0</version>
   <description>The visual_behavior package</description>
 
-  <maintainer email="o.acosta.2019@alumnos.urjc.es">ori1710</maintainer>
-  <maintainer email="j.avilleira.2019@alumnos.urjc.es">javilleira2019</maintainer>
-  <maintainer email="f.gomezl.2019@alumnos.urjc.es">p4golo</maintainer>
-  <maintainer email="j.fernandezev.2018@alumnos.urjc.es">JuanFernandezEva</maintainer>
+  <maintainer email="fmrico@gmail.com">fmrico</maintainer>
   
   <license>Apache 2</license>
   <url type="website">https://www.aulavirtual.urjc.es/moodle/course/view.php?id=144699</url>
 
-  <author email="o.acosta.2019@alumnos.urjc.es">Oriana Acosta</author>
-  <author email="j.avilleira.2019@alumnos.urjc.es">Jaime Avilleira</author>
-  <author email="f.gomezl.2019@alumnos.urjc.es">Francisco Gómez</author>
-  <author email="fj.fernandezev.2018@alumnos.urjc.es">Juan Fernandez</author>
+  <author email="fmrico@gmail.com">Francisco Martín</author>
 
   <buildtool_depend>catkin</buildtool_depend>
  
@@ -28,15 +22,13 @@
   <build_depend>kobuki_msgs</build_depend>
   <build_depend>behaviortree_cpp_v3</build_depend>
   <build_depend>tf</build_depend>
-  <build_depend>tf2_geometry_msgs</build_depend>
-  <build_depend>tf2</build_depend>
-  <build_depend>tf2_ros</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>image_transport</build_depend>
   <build_depend>pcl_conversions</build_depend>
   <build_depend>message_filters</build_depend>
   <build_depend>libzmq3-dev</build_depend>
   <build_depend>geometry_msgs</build_depend>
+
   <build_depend>roslint</build_depend>
 
   <build_export_depend>sensor_msgs</build_export_depend>
@@ -70,10 +62,6 @@
   <exec_depend>message_filters</exec_depend>
   <exec_depend>libzmq3-dev</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>tf2_geometry_msgs</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>tf2</exec_depend>
-  <exec_depend>tf2_ros</exec_depend>
 
   <export>
   </export>

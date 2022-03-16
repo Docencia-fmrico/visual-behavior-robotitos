@@ -6,6 +6,7 @@
 #include "ros/ros.h"
 
 #include <darknet_ros_msgs/ObjectCount.h>
+#include <darknet_ros_msgs/BoundingBoxes.h>
 
 #include <string>
 
@@ -18,17 +19,19 @@ class DetectPerson : public BT::ConditionNode
     explicit DetectPerson(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
-
-    void DetectPersonCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& boxes);
+    void DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes);
+    void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);
 
     static BT::PortsList providedPorts()
     {
-        return{ BT::OutputPort<std::string>("turn_direction"), BT::OutputPort<std::string>("turn_velocity")};
+        return{ BT::OutputPort<std::string>("turn_velocity"), BT::OutputPort<std::string>("counter")};
     }
 
   private:
     bool found_person_;
+    int contador = 0;
     ros::NodeHandle n_;
+    ros::Subscriber sub_counter_;
     ros::Subscriber sub_darknet_;
 };
 
