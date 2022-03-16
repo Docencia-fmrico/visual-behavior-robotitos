@@ -9,13 +9,19 @@
 namespace visual_behavior
 {
 
-DetectBallDist::DetectBallDist(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ConditionNode(name, config)
+DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & config)
+: BT::ActionNodeBase(name, config)
 {
 }
 
+void
+DetectBall::halt()
+{
+  ROS_INFO("DetectBall halt");
+}
+
 BT::NodeStatus
-DetectBallDist::tick()
+DetectBall::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
@@ -30,5 +36,5 @@ DetectBallDist::tick()
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<visual_behavior::DetectBallDist>("DetectBall");
+  factory.registerNodeType<visual_behavior::DetectBall>("DetectBall");
 }

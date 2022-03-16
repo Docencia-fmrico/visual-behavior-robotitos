@@ -15,6 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   behaviortree_cpp_v3
   darknet_ros_msgs
   message_filters
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 find_package(OpenCV REQUIRED)
@@ -33,6 +36,9 @@ CATKIN_DEPENDS
   pcl_conversions
   pcl_ros
   message_filters
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 find_package(OpenCV)
@@ -51,12 +57,12 @@ link_directories(
 
 add_library(${PROJECT_NAME}
   src/visual_behavior/DetectBall.cpp
+  src/visual_behavior/DetectBallDist.cpp
   src/visual_behavior/DetectPerson.cpp
   src/visual_behavior/DetectPersonDist.cpp
   src/visual_behavior/MakeSound.cpp
   src/visual_behavior/Turn.cpp
   src/visual_behavior/Foward.cpp
-  src/visual_behavior/PID.cpp
 )
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
@@ -84,12 +90,12 @@ roslint_cpp(
     src/visual_behavior/DetectPersonDist.cpp
     include/visual_behavior/DetectBall.h 
     src/visual_behavior/DetectBall.cpp
+    include/visual_behavior/DetectBallDist.h 
+    src/visual_behavior/DetectBallDist.cpp
     include/visual_behavior/MakeSound.h 
     src/visual_behavior/MakeSound.cpp
     include/visual_behavior/Turn.h 
     src/visual_behavior/Turn.cpp
     include/visual_behavior/Foward.h 
     src/visual_behavior/Foward.cpp
-    include/visual_behavior/PID.h 
-    src/visual_behavior/PID.cpp
 )

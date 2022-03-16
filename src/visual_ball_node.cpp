@@ -12,7 +12,6 @@
 
 #include "visual_behavior/MakeSound.h"
 #include "visual_behavior/DetectBall.h"
-#include "visual_behavior/DetectBallDist.h"
 #include "visual_behavior/Foward.h"
 #include "visual_behavior/Turn.h"
 
