@@ -7,26 +7,26 @@
                 <Condition ID="what_follow"/>
                 <Sequence>
                     <ReactiveFallback>
-                        <Condition ID="DetectPerson" counter="" turn_velocity=""/>
+                        <Condition ID="DetectPerson" counter="{counter}" turn_velocity="{turn_velocity}"/>
                         <Sequence>
-                            <Action ID="Turn" turn_velocity=""/>
-                            <Action ID="MakeSound" counter=""/>
+                            <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                            <Action ID="MakeSound" counter="{counter}"/>
                         </Sequence>
                     </ReactiveFallback>
                     <ReactiveFallback>
                         <Inverter>
-                            <Condition ID="DetectPersonDist" foward_velocity="" turn_velocity=""/>
+                            <Condition ID="DetectPersonDist" foward_velocity="{foward_velocity}" turn_velocity="{turn_velocity}"/>
                         </Inverter>
-                        <Action ID="Foward" foward_velocity=""/>
+                        <Action ID="Foward" foward_velocity="{foward_velocity}"/>
                     </ReactiveFallback>
                 </Sequence>
             </Fallback>
             <Sequence>
                 <ReactiveFallback>
-                    <Condition ID="DetectBall" counter="" turn_velocity=""/>
+                    <Condition ID="DetectBall" counter="{counter}" turn_velocity="{turn_velocity}"/>
                     <Sequence>
-                        <Action ID="Turn" turn_velocity=""/>
-                        <Action ID="MakeSound" counter=""/>
+                        <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                        <Action ID="MakeSound" counter="{counter}"/>
                     </Sequence>
                 </ReactiveFallback>
                 <KeepRunningUntilFailure>
