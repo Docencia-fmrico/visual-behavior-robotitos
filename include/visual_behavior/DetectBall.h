@@ -27,11 +27,12 @@ class DetectBall : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        return{ BT::OutputPort<std::string>("turn_direction"), BT::OutputPort<std::string>("turn_velocity")};
+        return{ BT::OutputPort<std::string>("turn_velocity"), BT::OutputPort<std::string>("counter")};
     }
 
   private:
     bool found_ball_;
+    int contador;
     ros::NodeHandle n_;
     ros::Subscriber sub_hsv_;
 };

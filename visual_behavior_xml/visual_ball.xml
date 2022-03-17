@@ -2,45 +2,35 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <ReactiveSequence>
-            <Fallback>
-                <RetryUntilSuccesful num_attempts="3">
-                    <Fallback>
-                        <Condition ID="DetectBall" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                        <Action ID="Turn" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                    </Fallback>
-                </RetryUntilSuccesful>
-                <ReactiveSequence>
-                    <Condition ID="DetectBall" turn_direction="{turn_direction}" turn_velocity="{turn_velocity}"/>
-                    <Action ID="MakeSound"/>
-                </ReactiveSequence>
-            </Fallback>
-            <ReactiveSequence>
-                <Condition ID="DetectBallDist" foward_direction="" foward_velocity=""/>
-                <Action ID="Foward" foward_direction="{foward_direction}" foward_velocity="{foward_velocity}"/>
-            </ReactiveSequence>
-        </ReactiveSequence>
+        <Sequence>
+            <ReactiveFallback>
+                <Condition ID="DetectBall" counter="{counter}" turn_velocity="{turn_velocity}"/>
+                <Sequence>
+                    <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                    <Action ID="MakeSound" counter="{counter}"/>
+                </Sequence>
+            </ReactiveFallback>
+            <KeepRunningUntilFailure>
+                <Action ID="DetectBallDist"/>
+            </KeepRunningUntilFailure>
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+        <Undefined ID=""/>
         <Condition ID="DetectBall">
-            <output_port name="turn_direction">devuelve hacia que direccion girar</output_port>
+            <input_port name="counter">contador</input_port>
             <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
-        <Condition ID="DetectBallDist">
-            <output_port name="foward_direction">direccion a la que caminara, siendo hacia delante o hacia atras</output_port>
-            <output_port name="foward_velocity">velocidad a la que caminara</output_port>
-        </Condition>
+        <Action ID="DetectBallDist"/>
         <Action ID="Foward">
-            <input_port name="foward_direction">direccion a la que caminara, siendo hacia delante o hacia atras</input_port>
             <input_port name="foward_velocity">velocidad a la que caminara</input_port>
         </Action>
         <Action ID="MakeSound"/>
         <Action ID="Turn">
-            <input_port name="turn_direction">direccion a la que girara</input_port>
             <input_port name="turn_velocity">velocidad a la que girara</input_port>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->
 </root>
- 
+

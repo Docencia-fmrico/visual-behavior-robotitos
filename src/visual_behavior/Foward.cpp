@@ -32,28 +32,24 @@ Foward::tick()
         ROS_INFO("Foward");
     }
 
-    BT::Optional<std::string> foward_direction = getInput<std::string>("foward_direction");
+    BT::Optional<std::string> turn_velocity = getInput<std::string>("turn_velocity");
     BT::Optional<std::string> foward_velocity = getInput<std::string>("foward_velocity");
     detected_ts_ = ros::Time::now();
 
-    if (!foward_direction) {
-        throw BT::RuntimeError("missing required input [message]: ", foward_direction.error() );
+    if (!turn_velocity) {
+        throw BT::RuntimeError("missing required input [message]: ", turn_velocity.error() );
     } else if (!foward_velocity) {
         throw BT::RuntimeError("missing required input [message]: ", foward_velocity.error() );
     }
 
-    if (foward_direction.value() == "back") {
-        cmd.linear.x = -std::stod(foward_velocity.value());
-        cmd.angular.z = 0.0;
-    } else {
-        cmd.linear.x = std::stod(foward_velocity.value());
-        cmd.angular.z = 0.0;
-    }
+    cmd.linear.x = std::stod(foward_velocity.value());
+    cmd.angular.z = std::stod(turn_velocity.value());
+
     while ((ros::Time::now() - detected_ts_).toSec() < WALKING_TIME) {
         pub_vel_.publish(cmd);
     }
     
-    return BT::NodeStatus::RUNNING;
+    return BT::NodeStatus::SUCCESS;
 }
 
 }  // namespace visual_behavior
