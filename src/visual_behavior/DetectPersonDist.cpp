@@ -27,7 +27,7 @@ DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfig
 
   sub_counter_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPersonDist::CounterCallBack,this);
   sync_bbx.registerCallback(boost::bind(&DetectPersonDist::callback_bbx, this,  _1, _2));
-  sub_laser_ = n_.subscribe("/scan",1,&DetectPersonDist::laserCallBack,this);
+  //sub_laser_ = n_.subscribe("/scan",1,&DetectPersonDist::laserCallBack,this);
 }
 
 void
@@ -105,12 +105,13 @@ DetectPersonDist::tick()
   std::cerr << "obstaculo:" << obstacle_detected_ << std::endl;
   std::cerr << "velocidad izq:" << turn_left_velocity << std::endl;
   std::cerr << "velocidad derecha:" << turn_right_velocity << std::endl;
-  if (found_person_ == true || obstacle_detected_ == true) {
+  
+  if (found_person_ == true) {
     std::cerr << "dist:" << dist << std::endl;
 
     if (dist >= 1.4) {
       setOutput("foward_velocity", std::to_string(foward_velocity));
-    } else if (dist <= 1.0 || obstacle_detected_ == true) {
+    } else if (dist <= 1.0) {
       setOutput("foward_velocity", "-0.1" );
     } else {
       setOutput("foward_velocity", "0.0" );

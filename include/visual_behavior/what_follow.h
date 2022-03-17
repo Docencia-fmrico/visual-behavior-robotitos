@@ -1,5 +1,5 @@
-#ifndef VISUAL_BEHAVIOR_DETECTBALL_H
-#define VISUAL_BEHAVIOR_DETECTBALL_H
+#ifndef VISUAL_BEHAVIOR_WHAT_FOLLOW_H
+#define VISUAL_BEHAVIOR_WHAT_FOLLOW_H
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -16,26 +16,26 @@
 namespace visual_behavior
 {
 
-class DetectBall : public BT::ActionNodeBase
+class what_follow : public BT::ConditionNode
 {
   public:
-    explicit DetectBall(const std::string& name, const BT::NodeConfiguration& config);
+    explicit what_follow(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
-    void halt();
+    void DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes);
+    void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);hat_follow(const std::string& name, const BT::NodeConfiguration& config);
     void DetectBallCallBack(const sensor_msgs::Image::ConstPtr& image);
-
-    static BT::PortsList providedPorts()
-    {
-        return{ BT::OutputPort<std::string>("turn_direction"), BT::OutputPort<std::string>("turn_velocity")};
-    }
 
   private:
     bool found_ball_;
+    bool found_person_;
+    int contador = 0;
     ros::NodeHandle n_;
     ros::Subscriber sub_hsv_;
+    ros::Subscriber sub_counter_;
+    ros::Subscriber sub_darknet_;
 };
 
 }  // namespace visual_behavior
 
-#endif  // VISUAL_BEHAVIOR_DETECTBALL_H 
+#endif  // VISUAL_BEHAVIOR_WHAT_FOLLOW_H 
