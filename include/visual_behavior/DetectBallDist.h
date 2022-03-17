@@ -19,25 +19,19 @@
 namespace visual_behavior
 {
 
-class DetectBallDist : public BT::ConditionNode
+class DetectBallDist : public BT::ActionNodeBase
 {
   public:
     explicit DetectBallDist(const std::string& name, const BT::NodeConfiguration& config);
 
     BT::NodeStatus tick();
 
-    static BT::PortsList providedPorts()
-    {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction") };
-    }
-
   private:
     bool found_ball_;
     ros::NodeHandle n_;
+    ros::Publisher pub_vel_;
     tf2_ros::Buffer buffer;
-    tf2_ros::TransformListener listener(buffer);
+    tf2_ros::TransformListener listener();
 
     geometry_msgs::TransformStamped bf2ball_msg;
     geometry_msgs::TransformStamped odom2bf_msg;
@@ -49,7 +43,6 @@ class DetectBallDist : public BT::ConditionNode
     tf2::Stamped<tf2::Transform> odom2ball;
     tf2::Stamped<tf2::Transform> ball2odom;
 
-    tf2::Transform bf2ball;
     tf2::Transform ball2bf;
 
     std::string error;
