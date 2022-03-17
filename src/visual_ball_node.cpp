@@ -12,6 +12,7 @@
 
 #include "visual_behavior/MakeSound.h"
 #include "visual_behavior/DetectBall.h"
+#include "visual_behavior/DetectBallDist.h"
 #include "visual_behavior/Foward.h"
 #include "visual_behavior/Turn.h"
 
@@ -25,6 +26,7 @@ int main(int argc, char **argv)
 
   factory.registerNodeType<visual_behavior::MakeSound>("MakeSound");
   factory.registerNodeType<visual_behavior::DetectBall>("DetectBall");
+  factory.registerNodeType<visual_behavior::DetectBall>("DetectBallDist");
   factory.registerNodeType<visual_behavior::Foward>("Foward");
   factory.registerNodeType<visual_behavior::Turn>("Turn");
 
@@ -40,10 +42,9 @@ int main(int argc, char **argv)
 
   int count = 0;
 
-  bool finish = false;
-  while (ros::ok() && !finish)
+  while (ros::ok())
   {
-    finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
+    tree.rootNode()->executeTick();
 
     ros::spinOnce();
     loop_rate.sleep();
