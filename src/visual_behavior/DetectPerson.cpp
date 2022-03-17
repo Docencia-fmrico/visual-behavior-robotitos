@@ -54,8 +54,7 @@ DetectPerson::tick()
     contador = 0;
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("turn_direction", "rigth" );
-    setOutput("turn_velocity", "-0.5" );
+    setOutput("turn_velocity", "0.5" );
     setOutput("counter", std::to_string(contador));
     return BT::NodeStatus::FAILURE;
   }

@@ -33,7 +33,7 @@ int main(int argc, char **argv)
   auto blackboard = BT::Blackboard::create();
   
   std::string pkgpath = ros::package::getPath("visual_behavior");
-  std::string xml_file = pkgpath + "/visual_behavior_xml/visual_person.xml";
+  std::string xml_file = pkgpath + "/visual_behavior_xml/visual_person_mod.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);
@@ -42,10 +42,9 @@ int main(int argc, char **argv)
 
   int count = 0;
 
-  bool finish = false;
-  while (ros::ok() && !finish)
+  while (ros::ok())
   {
-    finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
+    tree.rootNode()->executeTick();
 
     ros::spinOnce();
     loop_rate.sleep();
