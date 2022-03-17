@@ -1,16 +1,25 @@
 #include "visual_behavior/DetectBallDist.h"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
+<<<<<<< HEAD
 #include "geometry_msgs/Twist.h"
 
+=======
+>>>>>>> 3319df14f8080f0667c8ceac669914b1b0be15b6
 #include "tf2/transform_datatypes.h"
 #include "tf2_ros/transform_listener.h"
 #include "tf2/LinearMath/Transform.h"
 #include "geometry_msgs/TransformStamped.h"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 #include "tf2/convert.h"
+<<<<<<< HEAD
 
 #include "visual_behavior/transforms.h"
+=======
+#include "transforms.h"
+
+#include "geometry_tf/transforms.h"
+>>>>>>> 3319df14f8080f0667c8ceac669914b1b0be15b6
 
 #include "ros/ros.h"
 #include <string>
@@ -33,7 +42,8 @@ DetectBallDist::halt()
 BT::NodeStatus
 DetectBallDist::tick()
 {
-  if (status() == BT::NodeStatus::IDLE)
+  geometry_msgs::Twist cmd;
+  if (buffer.canTransform("base_footprint", "object/0", ros::Time(0), ros::Duration(0.1), &error))
   {
       ROS_INFO("Loking for a ball dist");
   }
@@ -70,6 +80,10 @@ DetectBallDist::tick()
     pub_vel_.publish(cmd);
     return BT::NodeStatus::FAILURE;
   }
+  ros::spinOnce();
+  loop_rate.sleep();
+
+  return BT::NodeStatus::SUCCESS;
 }
 
 }  // namespace visual_behavior
