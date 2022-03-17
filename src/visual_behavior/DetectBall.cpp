@@ -18,6 +18,7 @@ DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & co
 : BT::ActionNodeBase(name, config)
 {
   found_ball_ = false;
+  contador = 0;
   sub_hsv_ = n_.subscribe("/hsv/image_filtered",1,&DetectBall::DetectBallCallBack,this);
 }
 
@@ -41,22 +42,18 @@ DetectBall::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
-    ROS_INFO("Looking for a ball");
+    ROS_INFO("ball");
   }
-
+  contador++;
   if (found_ball_) {
+    contador = 0;
+    setOutput("counter", "0");
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("turn_direction", "right" );
-    setOutput("turn_velocity", "0.1" );
+    setOutput("turn_velocity", "0.5" );
+    setOutput("counter", std::to_string(contador));
     return BT::NodeStatus::FAILURE;
   }
 }
 
 }  // namespace visual_behavior
-
-#include "behaviortree_cpp_v3/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<visual_behavior::DetectBall>("DetectBall");
-} 

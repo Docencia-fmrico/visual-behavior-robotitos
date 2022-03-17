@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef VISUAL_BEHAVIOR_TRANSFORMS_H
-#define VISUAL_BEHAVIOR_TRANSFORMS_H
-
 #include "tf2/transform_datatypes.h"
 #include "tf2/LinearMath/Transform.h"
+
+#include "visual_behavior/transforms.h"
 
 namespace visual_behavior
 {
 
-tf2::Vector3 transform_point(const tf2::Vector3 & input_point, const tf2::Transform & transform);
+tf2::Vector3 transform_point(const tf2::Vector3 & input_point, const tf2::Transform & transform)
+{
+  return  transform * input_point;
+}
 
 }  // namespace visual_behavior
-#endif  // VISUAL_BEHAVIOR_TRANSFORMS_H

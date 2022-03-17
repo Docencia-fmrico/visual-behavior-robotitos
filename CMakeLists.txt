@@ -15,12 +15,16 @@ find_package(catkin REQUIRED COMPONENTS
   behaviortree_cpp_v3
   darknet_ros_msgs
   message_filters
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 catkin_package(
+LIBRARIES geometry_tf
 CATKIN_DEPENDS 
   roscpp 
   std_msgs 
@@ -33,6 +37,9 @@ CATKIN_DEPENDS
   pcl_conversions
   pcl_ros
   message_filters
+  tf2 
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 find_package(OpenCV)
@@ -51,6 +58,7 @@ link_directories(
 
 add_library(${PROJECT_NAME}
   src/visual_behavior/DetectBall.cpp
+  src/visual_behavior/DetectBallDist.cpp
   src/visual_behavior/DetectPerson.cpp
   src/visual_behavior/DetectPersonDist.cpp
   src/visual_behavior/MakeSound.cpp
@@ -67,11 +75,15 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
+set(LINK_LIBS
+  visual_behavior
+  ${catkin_LIBRARIES}
+)
 
 add_executable(visual_person_node src/visual_person_node.cpp)
-target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES})
+target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES} ${LINK_LIBS})
 add_executable(visual_ball_node src/visual_ball_node.cpp)
-target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES})
+target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES} ${LINK_LIBS})
 
 set(ROSLINT_CPP_OPTS "--filter=-runtime/printf")
 
@@ -92,5 +104,7 @@ roslint_cpp(
     src/visual_behavior/Foward.cpp
     include/visual_behavior/PID.h 
     src/visual_behavior/PID.cpp
+    include/visual_behavior/transforms.h 
+    src/visual_behavior/transforms.cpp
 )
 

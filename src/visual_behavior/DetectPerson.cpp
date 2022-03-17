@@ -47,7 +47,7 @@ DetectPerson::tick()
   {
     ROS_INFO("Loking for a person");
   }
-
+  
   contador++;
   if (found_person_) {
     setOutput("counter", "0");

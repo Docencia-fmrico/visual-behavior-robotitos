@@ -24,7 +24,7 @@ class DetectPerson : public BT::ConditionNode
 
     static BT::PortsList providedPorts()
     {
-        return{ BT::OutputPort<std::string>("turn_velocity"), BT::OutputPort<std::string>("counter")};
+        return{ BT::OutputPort<std::string>("turn_velocity"), BT::OutputPort<std::string>("counter"), BT::InputPort<std::string>("counter")};
     }
 
   private:
