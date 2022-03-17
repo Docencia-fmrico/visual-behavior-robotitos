@@ -39,10 +39,11 @@ MakeSound::tick()
     } 
 
     sound.value = sound.ERROR;
-    if (std::stoi(counter.value()) <= 5) {
+    if (std::stoi(counter.value()) < 10) {
         return BT::NodeStatus::SUCCESS;
     } else {
         pub_sound_.publish(sound);
+        ros::Duration(3.0).sleep();
         return BT::NodeStatus::RUNNING;
     }
 }

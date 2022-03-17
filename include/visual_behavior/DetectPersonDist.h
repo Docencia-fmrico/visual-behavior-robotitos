@@ -13,6 +13,8 @@
 
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
+#include "visual_behavior/PID.h"
+#include "sensor_msgs/LaserScan.h"
 
 #include "ros/ros.h"
 #include <string>
@@ -28,10 +30,11 @@ class DetectPersonDist : public BT::ConditionNode
     BT::NodeStatus tick();
     void callback_bbx(const sensor_msgs::ImageConstPtr& image, const darknet_ros_msgs::BoundingBoxesConstPtr& boxes);
     void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);
+    void laserCallBack(const sensor_msgs::LaserScan::ConstPtr& laser);
    
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("foward_direction"), BT::OutputPort<std::string>("foward_velocity") };
+        return { BT::OutputPort<std::string>("turn_velocity"), BT::OutputPort<std::string>("foward_velocity") };
     }
     
   private:
@@ -45,9 +48,11 @@ class DetectPersonDist : public BT::ConditionNode
 
     bool found_person_;
     ros::Subscriber sub_counter_;
+    ros::Subscriber sub_laser_;
+    bool obstacle_detected_;
     float dist;
-    int px;
-    int py;
+    int px_min, px_max;
+    int py, px;
 };
 
 }  // namespace visual_behavior

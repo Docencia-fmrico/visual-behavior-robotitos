@@ -51,9 +51,9 @@ DetectPerson::tick()
   contador++;
   if (found_person_) {
     setOutput("counter", "0");
+    contador = 0;
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("turn_direction", "rigth" );
     setOutput("turn_velocity", "0.5" );
     setOutput("counter", std::to_string(contador));
     return BT::NodeStatus::FAILURE;

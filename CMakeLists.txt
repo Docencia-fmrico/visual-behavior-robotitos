@@ -56,6 +56,7 @@ add_library(${PROJECT_NAME}
   src/visual_behavior/MakeSound.cpp
   src/visual_behavior/Turn.cpp
   src/visual_behavior/Foward.cpp
+  src/visual_behavior/PID.cpp
 )
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
@@ -89,4 +90,6 @@ roslint_cpp(
     src/visual_behavior/Turn.cpp
     include/visual_behavior/Foward.h 
     src/visual_behavior/Foward.cpp
+    include/visual_behavior/PID.h 
+    src/visual_behavior/PID.cpp
 )

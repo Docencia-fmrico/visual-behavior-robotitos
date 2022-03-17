@@ -9,6 +9,8 @@
 #include <sensor_msgs/Image.h>
 #include <darknet_ros_msgs/BoundingBoxes.h>
 #include <darknet_ros_msgs/ObjectCount.h>
+#include "visual_behavior/PID.h"
+#include "sensor_msgs/LaserScan.h"
 
 #include "ros/ros.h"
 #include <string>
@@ -17,7 +19,7 @@ namespace visual_behavior
 {
 
 DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfiguration & config)
-: BT::ConditionNode(name, config), sync_bbx(MySyncPolicy_bbx(10),image_depth_sub, bbx_sub)
+: BT::ConditionNode(name, config), sync_bbx(MySyncPolicy_bbx(10),image_depth_sub, bbx_sub), obstacle_detected_(false)
 { found_person_ == false;
 
   image_depth_sub.subscribe(n_, "/camera/depth/image_raw", 1);
@@ -25,6 +27,7 @@ DetectPersonDist::DetectPersonDist(const std::string& name, const BT::NodeConfig
 
   sub_counter_ = n_.subscribe("/darknet_ros/found_object", 1, &DetectPersonDist::CounterCallBack,this);
   sync_bbx.registerCallback(boost::bind(&DetectPersonDist::callback_bbx, this,  _1, _2));
+  sub_laser_ = n_.subscribe("/scan",1,&DetectPersonDist::laserCallBack,this);
 }
 
 void
@@ -40,15 +43,37 @@ DetectPersonDist::callback_bbx(const sensor_msgs::ImageConstPtr& image, const da
       ROS_ERROR("cv_bridge exception:  %s", e.what());
       return;
   }
-  
+  px_max = image->width;
+  px_min = 0;
+  found_person_ = false;
   for (const auto & box : boxes->bounding_boxes) {
     if (box.Class == "person") {
-      int px = (box.xmax + box.xmin) / 2;
+      px = (box.xmax + box.xmin) / 2;
       int py = (box.ymax + box.ymin) / 2;
-      found_person_ == false;
+      found_person_ = true; //estaba aqui en falso y no se como funcionaba
       dist = img_ptr_depth->image.at<float>(cv::Point(px, py)) * 0.001f;
     }
   }
+}
+
+void
+DetectPersonDist::laserCallBack(const sensor_msgs::LaserScan::ConstPtr& laser)
+{
+    int min_izq = laser->range_max*0.9;
+    int max_dcha = laser->range_max*0.1;
+
+    int dist_min = 0.5;
+
+    for (int i = laser->range_min; i <= max_dcha; i++) {
+        if (laser->ranges[i] <= dist_min && laser->ranges[i] != 0.0){
+            obstacle_detected_=true;
+        }
+    }
+    for (int i = laser->range_max; i >= min_izq; i--) {
+        if (laser->ranges[i] <= dist_min && laser->ranges[i] != 0.0){
+            obstacle_detected_=true;
+        }
+    }
 }
 
 void
@@ -69,26 +94,40 @@ DetectPersonDist::tick()
   {
     ROS_INFO("Loking for a person and return a distance");
   }
-  
-  if (found_person_ == true) {
+  PID pid_foward = PID(1.4, 7, 0.0, 0.2); // PID solo para ir hacia delante
+  double foward_velocity = pid_foward.get_output(dist);
+  PID pid_turn_right = PID(440, 640, 0.0, 0.4); // PID para girar a la derecha
+  double turn_right_velocity = pid_turn_right.get_output(px);
+  PID pid_turn_left = PID(0, 200, 0.0, 0.4); // PID para girar a la izquierda
+  double turn_left_velocity = pid_turn_left.get_output(px);
+
+  std::cerr << "x:" << px << std::endl;
+  std::cerr << "obstaculo:" << obstacle_detected_ << std::endl;
+  std::cerr << "velocidad izq:" << turn_left_velocity << std::endl;
+  std::cerr << "velocidad derecha:" << turn_right_velocity << std::endl;
+  if (found_person_ == true || obstacle_detected_ == true) {
     std::cerr << "dist:" << dist << std::endl;
-    if (dist >= 0.6 && dist <= 1.0) {
-      setOutput("foward_direction", "go" );
-      setOutput("foward_velocity", "0.1" );
-    } else if (dist > 1.0) {
-      setOutput("foward_direction", "go" );
-      setOutput("foward_velocity", "0.4" );
-    } else if (dist <= 0.5) {
-      setOutput("foward_direction", "back" );
-      setOutput("foward_velocity", "0.1" );
+
+    if (dist >= 1.4) {
+      setOutput("foward_velocity", std::to_string(foward_velocity));
+    } else if (dist <= 1.0 || obstacle_detected_ == true) {
+      setOutput("foward_velocity", "-0.1" );
     } else {
-      setOutput("foward_direction", "go" );
       setOutput("foward_velocity", "0.0" );
     }
+
+    if (px >= 440) {
+      setOutput("turn_velocity", std::to_string(-turn_right_velocity));
+    } else if (px <= 200) {
+      setOutput("turn_velocity", std::to_string(turn_left_velocity));
+    } else {
+      setOutput("turn_velocity", "0.0");
+    }
+    
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("foward_direction", "go" );
     setOutput("foward_velocity", "0.0" );
+    setOutput("turn_velocity", "0.0" );
     return BT::NodeStatus::FAILURE;
   }
 }

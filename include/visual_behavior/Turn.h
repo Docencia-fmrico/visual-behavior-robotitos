@@ -21,7 +21,7 @@ class Turn : public BT::ActionNodeBase
     void halt();
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("turn_direction"), BT::InputPort<std::string>("turn_velocity") };
+        return { BT::InputPort<std::string>("turn_velocity") };
     }
 
   private:

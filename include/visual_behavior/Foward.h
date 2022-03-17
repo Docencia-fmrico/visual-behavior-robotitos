@@ -22,13 +22,12 @@ class Foward : public BT::ActionNodeBase
 
     static BT::PortsList providedPorts()
     {
-        // This action has a single input port called "message"
-        // Any port must have a name. The type is optional.
-        return { BT::InputPort<std::string>("foward_direction"), BT::InputPort<std::string>("foward_velocity")};
+        return { BT::InputPort<std::string>("turn_velocity"), BT::InputPort<std::string>("foward_velocity")};
     }
 
   private:
-    static constexpr double WALKING_TIME = 1.0;
+    static constexpr double WALKING_TIME = 0.5;
+
     ros::Time detected_ts_;
     ros::NodeHandle n_;
     ros::Publisher pub_vel_;
