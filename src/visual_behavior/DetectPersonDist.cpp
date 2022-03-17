@@ -94,6 +94,7 @@ DetectPersonDist::tick()
   {
     ROS_INFO("Loking for a person and return a distance");
   }
+
   PID pid_foward = PID(1.4, 7, 0.0, 0.2); // PID solo para ir hacia delante
   double foward_velocity = pid_foward.get_output(dist);
   PID pid_turn_right = PID(440, 640, 0.0, 0.4); // PID para girar a la derecha
@@ -101,11 +102,10 @@ DetectPersonDist::tick()
   PID pid_turn_left = PID(0, 200, 0.0, 0.4); // PID para girar a la izquierda
   double turn_left_velocity = pid_turn_left.get_output(px);
 
-  std::cerr << "x:" << px << std::endl;
-  std::cerr << "obstaculo:" << obstacle_detected_ << std::endl;
-  std::cerr << "velocidad izq:" << turn_left_velocity << std::endl;
-  std::cerr << "velocidad derecha:" << turn_right_velocity << std::endl;
-  
+  if (dist <= 1.0) {       //si esta muy cerca deja de detectar a la persona entonces si la ultima dist
+    found_person_ == true; // es menor que 1.0 significa que lo tiene delante
+  }
+
   if (found_person_ == true) {
     std::cerr << "dist:" << dist << std::endl;
 
@@ -117,6 +117,7 @@ DetectPersonDist::tick()
       setOutput("foward_velocity", "0.0" );
     }
 
+    //comprobamos si debemos girar un poco o no dependiendo de donde se encuentre la persona
     if (px >= 440) {
       setOutput("turn_velocity", std::to_string(-turn_right_velocity));
     } else if (px <= 200) {

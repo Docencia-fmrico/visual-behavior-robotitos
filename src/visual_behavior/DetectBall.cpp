@@ -51,7 +51,7 @@ DetectBall::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
-    ROS_INFO("Looking for a ball");
+    ROS_INFO("ball");
   }
   contador_++;
   if (found_ball_) {

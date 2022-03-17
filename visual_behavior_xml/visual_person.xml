@@ -25,7 +25,7 @@
         </Condition>
         <Condition ID="DetectPersonDist">
             <output_port name="foward_velocity">velocidad a la que caminara</output_port>
-            <input_port name="turn_velocity">velocidad a la que girara</input_port>
+            <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
         <Action ID="Foward">
             <input_port name="foward_velocity">velocidad a la que caminara</input_port>

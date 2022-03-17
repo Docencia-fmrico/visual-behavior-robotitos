@@ -7,62 +7,57 @@
                 <Condition ID="what_follow"/>
                 <Sequence>
                     <ReactiveFallback>
-                        <Condition ID="DetectPerson" turn_direction="" turn_velocity=""/>
+                        <Condition ID="DetectPerson" counter="" turn_velocity=""/>
                         <Sequence>
-                            <Action ID="Turn" turn_direction="" turn_velocity=""/>
-                            <Action ID="MakeSound"/>
+                            <Action ID="Turn" turn_velocity=""/>
+                            <Action ID="MakeSound" counter=""/>
                         </Sequence>
                     </ReactiveFallback>
                     <ReactiveFallback>
                         <Inverter>
-                            <Condition ID="DetectPersonDist" foward_direction="" foward_velocity=""/>
+                            <Condition ID="DetectPersonDist" foward_velocity="" turn_velocity=""/>
                         </Inverter>
-                        <Action ID="Foward" foward_direction="" foward_velocity=""/>
+                        <Action ID="Foward" foward_velocity=""/>
                     </ReactiveFallback>
                 </Sequence>
             </Fallback>
             <Sequence>
                 <ReactiveFallback>
+                    <Condition ID="DetectBall" counter="" turn_velocity=""/>
                     <Sequence>
-                        <Action ID="Turn" turn_direction="" turn_velocity=""/>
-                        <Action ID="MakeSound"/>
+                        <Action ID="Turn" turn_velocity=""/>
+                        <Action ID="MakeSound" counter=""/>
                     </Sequence>
-                    <Condition ID="DetectBall" turn_direction="" turn_velocity=""/>
                 </ReactiveFallback>
-                <ReactiveFallback>
-                    <Inverter>
-                        <Condition ID="DetectBallDist" foward_direction="" foward_velocity=""/>
-                    </Inverter>
-                    <Action ID="Foward" foward_direction="" foward_velocity=""/>
-                </ReactiveFallback>
+                <KeepRunningUntilFailure>
+                    <Action ID="DetectBallDist"/>
+                </KeepRunningUntilFailure>
             </Sequence>
         </ReactiveSequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+        <Undefined ID=""/>
         <Condition ID="DetectBall">
-            <output_port name="turn_direction">devuelve hacia que direccion girar</output_port>
+            <output_port name="counter">contador</output_port>
             <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
-        <Condition ID="DetectBallDist">
-            <output_port name="foward_direction">direccion a la que caminara, siendo hacia delante o hacia atras</output_port>
-            <output_port name="foward_velocity">velocidad a la que caminara</output_port>
-        </Condition>
+        <Action ID="DetectBallDist"/>
         <Condition ID="DetectPerson">
-            <output_port name="turn_direction">devuelve hacia que direccion girar</output_port>
+            <output_port name="counter"/>
             <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
         <Condition ID="DetectPersonDist">
-            <output_port name="foward_direction">direccion a la que caminara, siendo hacia delante o hacia atras</output_port>
             <output_port name="foward_velocity">velocidad a la que caminara</output_port>
+            <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
         <Action ID="Foward">
-            <input_port name="foward_direction">direccion a la que caminara, siendo hacia delante o hacia atras</input_port>
             <input_port name="foward_velocity">velocidad a la que caminara</input_port>
         </Action>
-        <Action ID="MakeSound"/>
+        <Action ID="MakeSound">
+            <input_port name="counter"/>
+        </Action>
         <Action ID="Turn">
-            <input_port name="turn_direction">direccion a la que girara</input_port>
             <input_port name="turn_velocity">velocidad a la que girara</input_port>
         </Action>
         <Condition ID="what_follow"/>
