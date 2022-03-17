@@ -23,7 +23,7 @@ class what_follow : public BT::ConditionNode
 
     BT::NodeStatus tick();
     void DetectPersonCallBack(const darknet_ros_msgs::BoundingBoxes::ConstPtr& boxes);
-    void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);hat_follow(const std::string& name, const BT::NodeConfiguration& config);
+    void CounterCallBack(const darknet_ros_msgs::ObjectCount::ConstPtr& counter);
     void DetectBallCallBack(const sensor_msgs::Image::ConstPtr& image);
 
   private:

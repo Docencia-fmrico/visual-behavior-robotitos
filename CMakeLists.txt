@@ -84,6 +84,8 @@ add_executable(visual_person_node src/visual_person_node.cpp)
 target_link_libraries(visual_person_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES} ${LINK_LIBS})
 add_executable(visual_ball_node src/visual_ball_node.cpp)
 target_link_libraries(visual_ball_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES} ${LINK_LIBS})
+add_executable(visual_complete_node src/visual_complete_node.cpp)
+target_link_libraries(visual_complete_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${OpenCV_LIBRARIES} ${LINK_LIBS})
 
 set(ROSLINT_CPP_OPTS "--filter=-runtime/printf")
 

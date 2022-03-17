@@ -15,7 +15,7 @@
                     </ReactiveFallback>
                     <ReactiveFallback>
                         <Inverter>
-                            <Condition ID="DetectPersonDist" foward_velocity="{foward_velocity}" turn_velocity="{turn_velocity}"/>
+                            <Condition ID="DetectPersonDist" turn_velocity="{turn_velocity}" foward_velocity="{foward_velocity}"/>
                         </Inverter>
                         <Action ID="Foward" foward_velocity="{foward_velocity}"/>
                     </ReactiveFallback>
@@ -29,9 +29,7 @@
                         <Action ID="MakeSound" counter="{counter}"/>
                     </Sequence>
                 </ReactiveFallback>
-                <KeepRunningUntilFailure>
-                    <Action ID="DetectBallDist"/>
-                </KeepRunningUntilFailure>
+                <Action ID="DetectBallDist"/>
             </Sequence>
         </ReactiveSequence>
     </BehaviorTree>
