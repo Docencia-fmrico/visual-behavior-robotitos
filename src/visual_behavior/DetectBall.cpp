@@ -11,6 +11,8 @@
 #include "ros/ros.h"
 #include <string>
 
+#define PIXEL_REQ 1000
+
 namespace visual_behavior
 {
 
@@ -18,7 +20,8 @@ DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & co
 : BT::ActionNodeBase(name, config)
 {
   found_ball_ = false;
-  contador = 0;
+  contador_ = 0;
+  pixel_counter_ = 0;
   sub_hsv_ = n_.subscribe("/hsv/image_filtered",1,&DetectBall::DetectBallCallBack,this);
 }
 
@@ -26,9 +29,15 @@ void
 DetectBall::DetectBallCallBack(const sensor_msgs::Image::ConstPtr& image) {
   for (const auto & pixel_value : image->data) {
      if (pixel_value != 0) {
-        found_ball_ = true;
+        pixel_counter_++;
      } 
   }
+  if (pixel_counter_ >= PIXEL_REQ) {
+    found_ball_ = true;
+  } else {
+    found_ball_ = false;
+  }
+  pixel_counter_ = 0;
 }
 
 void
@@ -44,9 +53,9 @@ DetectBall::tick()
   {
     ROS_INFO("Looking for a ball");
   }
-  contador++;
+  contador_++;
   if (found_ball_) {
-    contador = 0;
+    contador_ = 0;
     setOutput("counter", "0");
     return BT::NodeStatus::SUCCESS;
   } else {

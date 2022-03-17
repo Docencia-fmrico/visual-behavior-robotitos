@@ -32,7 +32,8 @@ class DetectBall : public BT::ActionNodeBase
 
   private:
     bool found_ball_;
-    int contador;
+    int contador_;
+    int pixel_counter_;
     ros::NodeHandle n_;
     ros::Subscriber sub_hsv_;
 };
