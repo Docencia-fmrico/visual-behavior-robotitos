@@ -41,13 +41,13 @@ DetectBall::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
-    ROS_INFO("Lo0king for a ball");
+    ROS_INFO("Looking for a ball");
   }
 
   if (found_ball_) {
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("turn_direction", "rigth" );
+    setOutput("turn_direction", "right" );
     setOutput("turn_velocity", "0.1" );
     return BT::NodeStatus::FAILURE;
   }
