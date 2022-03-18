@@ -22,6 +22,7 @@
     <TreeNodesModel>
         <Condition ID="DetectPerson">
             <output_port name="turn_velocity">velocidad a la que girara</output_port>
+            <output_port name="counter">contador</output_port>
         </Condition>
         <Condition ID="DetectPersonDist">
             <output_port name="foward_velocity">velocidad a la que caminara</output_port>

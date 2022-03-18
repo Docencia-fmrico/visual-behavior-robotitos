@@ -27,7 +27,7 @@ DetectBall::DetectBall(const std::string& name, const BT::NodeConfiguration & co
 
 void
 DetectBall::DetectBallCallBack(const sensor_msgs::Image::ConstPtr& image) {
-  for (const auto & pixel_value : image->data) {
+ for (const auto & pixel_value : image->data) {
      if (pixel_value != 0) {
         pixel_counter_++;
      } 
@@ -59,8 +59,8 @@ DetectBall::tick()
     setOutput("counter", "0");
     return BT::NodeStatus::SUCCESS;
   } else {
-    setOutput("turn_velocity", "0.1" );
-    setOutput("counter", "0");
+    setOutput("turn_velocity", "0.5" );
+    setOutput("counter", std::to_string(contador_));
     return BT::NodeStatus::FAILURE;
   }
 }

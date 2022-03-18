@@ -7,31 +7,29 @@
                 <Condition ID="what_follow"/>
                 <Sequence>
                     <ReactiveFallback>
-                        <Condition ID="DetectPerson" counter="" turn_velocity=""/>
+                        <Condition ID="DetectPerson" counter="{counter}" turn_velocity="{turn_velocity}"/>
                         <Sequence>
-                            <Action ID="Turn" turn_velocity=""/>
-                            <Action ID="MakeSound" counter=""/>
+                            <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                            <Action ID="MakeSound" counter="{counter}"/>
                         </Sequence>
                     </ReactiveFallback>
                     <ReactiveFallback>
                         <Inverter>
-                            <Condition ID="DetectPersonDist" foward_velocity="" turn_velocity=""/>
+                            <Condition ID="DetectPersonDist" turn_velocity="{turn_velocity}" foward_velocity="{foward_velocity}"/>
                         </Inverter>
-                        <Action ID="Foward" foward_velocity=""/>
+                        <Action ID="Foward" turn_velocity="{turn_velocity}" foward_velocity="{foward_velocity}"/>
                     </ReactiveFallback>
                 </Sequence>
             </Fallback>
             <Sequence>
                 <ReactiveFallback>
-                    <Condition ID="DetectBall" counter="" turn_velocity=""/>
+                    <Condition ID="DetectBall" counter="{counter}" turn_velocity="{turn_velocity}"/>
                     <Sequence>
-                        <Action ID="Turn" turn_velocity=""/>
-                        <Action ID="MakeSound" counter=""/>
+                        <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                        <Action ID="MakeSound" counter="{counter}"/>
                     </Sequence>
                 </ReactiveFallback>
-                <KeepRunningUntilFailure>
-                    <Action ID="DetectBallDist"/>
-                </KeepRunningUntilFailure>
+                <Action ID="DetectBallDist"/>
             </Sequence>
         </ReactiveSequence>
     </BehaviorTree>
@@ -53,6 +51,7 @@
         </Condition>
         <Action ID="Foward">
             <input_port name="foward_velocity">velocidad a la que caminara</input_port>
+            <input_port name="turn_velocity">velocidad a la que girara</input_port>
         </Action>
         <Action ID="MakeSound">
             <input_port name="counter"/>

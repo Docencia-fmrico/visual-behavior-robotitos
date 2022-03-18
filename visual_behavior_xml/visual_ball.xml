@@ -21,9 +21,6 @@
             <output_port name="turn_velocity">velocidad a la que girara</output_port>
         </Condition>
         <Action ID="DetectBallDist"/>
-        <Action ID="Foward">
-            <input_port name="foward_velocity">velocidad a la que caminara</input_port>
-        </Action>
         <Action ID="MakeSound">
             <input_port name="counter">contador</input_port>
         </Action>
