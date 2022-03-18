@@ -24,8 +24,18 @@
 ## De Máquinas de Estado a Behavior Trees.
    A diferencia de la práctica anterior. En esta para controlar el flujo de comportamiento del Kobuki se han implementado *Behavior Trees*, los cuales nos permiten un control más visual de como actua el robot.
    Los árboles se pueden visualizar aquí:
-   ![KOBUKI]()
+   Para detectar la pelota:
+   ![Detect_Ball](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/img/detect_ball.png)
+   Para detectar a la persona:
+   ![Detect_Person](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/img/detect_person.png)
+   Para detectar a ambos, y en caso de que estén los dos, vaya hacia la pelota.
+   ![Detect_Comp](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/img/detect_completa.png)
 
+   Para ver los **.xml**, se encuentran este [directorio](https://github.com/Docencia-fmrico/visual-behavior-robotitos/tree/main/visual_behavior_xml)
 
-
-## 1. [Detectball]()
+## 1. [DetectPerson](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_person_node.cpp)
+   Sigue a una persona que detecta mediante las Bounding Boxes de Darknet_ros. Se controla su velocidad mediante un PID, así como su giro.
+## 2. [Detect_Ball](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_ball_node.cpp)
+   Mira hacia una pelota, pero no se ha conseguido que avance.
+## 3. [Detect_Complete](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_complete_node.cpp)
+   Implementa los dos behavior trees, pero en este caso si encuentra la pelota y una persona a la vez, "debería" seguir a la pelota.
