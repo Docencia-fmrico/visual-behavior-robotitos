@@ -36,7 +36,7 @@ DetectBallDist::tick()
 {
   if (status() == BT::NodeStatus::IDLE)
   {
-      ROS_INFO("Loking for a ball dist");
+      ROS_INFO("Looking for a ball dist");
   }
 
   geometry_msgs::Twist cmd;
