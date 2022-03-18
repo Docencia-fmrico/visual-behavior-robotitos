@@ -35,8 +35,13 @@
 
 ## 1. [DetectPerson](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_person_node.cpp)
    Sigue a una persona que detecta mediante las Bounding Boxes de Darknet_ros. Se controla su velocidad mediante un PID, así como su giro.
+   [visual_person.launch](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/launch/visual_person.launch)
+   
 ## 2. [Detect_Ball](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_ball_node.cpp)
-   Mira hacia una pelota, pero no se ha conseguido que avance. Para detectar la distancia de la pelota se han usado las TF.
+   Mira hacia una pelota. Para detectar la bola, se ha implementado un filtro de color HSV a tiempo real.Para detectar la distancia de la pelota se han usado las transformadas. En cuanto al movimiento no se ha conseguido hacer avanzar.
+   [visual_ball.launch](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/launch/visual_ball.launch)
+
 ## 3. [Detect_Complete](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/src/visual_complete_node.cpp)
    Implementa los dos behavior trees, pero en este caso si encuentra la pelota y una persona a la vez, "debería" seguir a la pelota.
+   [visual_complete.launch](https://github.com/Docencia-fmrico/visual-behavior-robotitos/blob/main/launch/visual_complete.launch)
 
