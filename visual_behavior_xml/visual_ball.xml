@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <ReactiveFallback>
+                <Condition ID="DetectBall" counter="{counter}" turn_velocity="{turn_velocity}"/>
+                <Sequence>
+                    <Action ID="Turn" turn_velocity="{turn_velocity}"/>
+                    <Action ID="MakeSound" counter="{counter}"/>
+                </Sequence>
+            </ReactiveFallback>
+            <Action ID="DetectBallDist"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Undefined ID=""/>
+        <Condition ID="DetectBall">
+            <output_port name="counter">contador</output_port>
+            <output_port name="turn_velocity">velocidad a la que girara</output_port>
+        </Condition>
+        <Action ID="DetectBallDist"/>
+        <Action ID="MakeSound">
+            <input_port name="counter">contador</input_port>
+        </Action>
+        <Action ID="Turn">
+            <input_port name="turn_velocity">velocidad a la que girara</input_port>
+        </Action>
+        <Condition ID="what_follow"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
